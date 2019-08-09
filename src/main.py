@@ -9,95 +9,9 @@ import apis
 import information_analysis as analysis
 import grouping_scrambling_functions as grouping_scrambling
 import pdf_file_generation as pdf_files
-
-### Parser
-# Parser arguments that can be added during script start
-parser = argparse.ArgumentParser(
-    description="Give input to script to skip steps during run time."
-)
-parser.add_argument(
-    "-m", "--mail", help="WCA account mail address which is used for login."
-)
-parser.add_argument("-o", "--option", help="Input any of the given options of script.")
-parser.add_argument(
-    "-wreg",
-    "--wca_registration",
-    action="store_true",
-    help="Boolean. Did competition use WCA registration?",
-)
-parser.add_argument(
-    "-nwreg",
-    "--no_wca_registration",
-    action="store_false",
-    help="Boolean. Did competition NOT use WCA registration?",
-)
-parser.add_argument("-c", "--competition", help="Competition name")
-parser.add_argument(
-    "-t",
-    "--two_sided",
-    action="store_true",
-    help="Boolean. Specify, if back of nametags should be created (with grouping and scrambling information).",
-)
-parser.add_argument(
-    "-nt",
-    "--no_two_sided",
-    action="store_false",
-    help="Boolean. Specify, if back of nametags should NOT be created.",
-)
-parser.add_argument(
-    "-ssig",
-    "--scrambler_signature",
-    action="store_true",
-    help="Boolean. Specify, if scrambler signature field should be put on scoresheets.",
-)
-parser.add_argument(
-    "-nssig",
-    "--no_scrambler_signature",
-    action="store_false",
-    help="Boolean. Specify, if scrambler signature field should NOT be put on scoresheets.",
-)
-parser.add_argument(
-    "-r",
-    "--registration_file",
-    help="Name of registration file if WCA registration was not used.",
-)
-parser.add_argument(
-    "-g", "--grouping_file", help="Name of grouping file. For options 5, 7 and 8."
-)
-parser.add_argument(
-    "-s", "--scrambling_file", help="Name of scrambling file. For option 5."
-)
-parser.add_argument(
-    "-cu",
-    "--cubecomps",
-    help="Cubecomps link to create scoresheets of consecutive rounds.",
-)
-parser.add_argument(
-    "-a",
-    "--use_access_token",
-    action="store_true",
-    help="If script has been used before, an access token to the WCA API will be saved. This token can be reused.",
-)
-
-parser_args = parser.parse_args()
-
-# catch input errors
-if parser_args.two_sided and not parser_args.no_two_sided:
-    print(
-        "Creating and not creating back of nametags was selected. Setting default to false."
-    )
-    parser_args.two_sided = False
-
-if parser_args.scrambler_signature and not parser_args.no_scrambler_signature:
-    print(
-        "Putting scrambler signature fields on scoresheets was selected for true AND false. Setting default to true."
-    )
-    parser_args.no_scrambler_signature = True
-
-if parser_args.wca_registration and not parser_args.no_wca_registration:
-    print("Use of WCA registration was selected as true AND false. Resetting values.")
-    parser_args.wca_registration = None
-    parser_args.no_wca_registration = None
+from lib.parser import PreperationParser
+from constants import EVENT_DICT, EVENT_IDS
+parser = PreperationParser()
 
 ### Collection of booleans and variables for various different options from this script
 # Most of these are used globally
@@ -109,48 +23,6 @@ get_registration_information, two_sided_nametags, valid_cubecomps_link = (
 )
 scoresheet_competitor_name, cubecomps_id, competitors = "", "", ""
 competitors_api, scrambler_list, result_string = [], [], []
-
-event_dict = {
-    "333": "3x3x3",
-    "222": "2x2x2",
-    "444": "4x4x4",
-    "555": "5x5x5",
-    "666": "6x6x6",
-    "777": "7x7x7",
-    "333bf": "3x3x3 Blindfolded",
-    "333fm": "3x3x3 Fewest Moves",
-    "333oh": "3x3x3 One-Handed",
-    "333ft": "3x3x3 With Feet",
-    "clock": "Clock",
-    "minx": "Megaminx",
-    "pyram": "Pyraminx",
-    "skewb": "Skewb",
-    "sq1": "Square-1",
-    "444bf": "4x4x4 Blindfolded",
-    "555bf": "5x5x5 Blindfolded",
-    "333mbf": "3x3x3 Multi-Blindfolded",
-}
-event_ids = {
-    "333": 999,
-    "222": 999,
-    "444": 999,
-    "555": 999,
-    "666": 999,
-    "777": 999,
-    "333bf": 999,
-    "333fm": 999,
-    "333oh": 999,
-    "333ft": 999,
-    "minx": 999,
-    "pyram": 999,
-    "clock": 999,
-    "skewb": 999,
-    "sq1": 999,
-    "444bf": 999,
-    "555bf": 999,
-    "333mbf": 999,
-}
-
 
 access_token_found = False
 if parser_args.use_access_token:
