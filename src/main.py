@@ -11,6 +11,7 @@ import grouping_scrambling_functions as grouping_scrambling
 import pdf_file_generation as pdf_files
 from lib.parser import PreperationParser
 from constants import EVENT_DICT, EVENT_IDS
+from lib.utils import *
 parser = PreperationParser()
 # This shoukd be replaced by a more sane approach of asking the parser 
 # What mode you are in e.g. if parser.is_x:
@@ -28,26 +29,8 @@ competitors_api, scrambler_list, result_string = [], [], []
 
 access_token_found = False
 if parser_args.use_access_token:
-    try:
-        with open(".secret", "r") as secret:
-            secret_text = secret.read()
-            secret_time = datetime.datetime.strptime(
-                secret_text.split("token:")[0].strip(), "%Y-%m-%d %H:%M:%S.%f"
-            )
-            parser_args.access_token = (
-                secret_text.split("token:")[1].split("refresh_")[0].strip()
-            )
-            refresh_token = secret_text.split("refresh_token:")[1].strip()
-            access_token_found = True
-
-        if (secret_time - datetime.datetime.now()) > datetime.timedelta(hours=2):
-            apis.wca_api_get_new_token(refresh_token)
-    except FileNotFoundError:
-        print("")
-        print(
-            "INFO! No access token from previous runs was found. Fallback to use WCA mail address and password."
-        )
-        parser_args.use_access_token = False
+    access_token_found = key_exists()
+    parser_args.use_access_token = access_token_found
 
 
 ### Selection of script functions
