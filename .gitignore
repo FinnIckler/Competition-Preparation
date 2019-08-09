@@ -1,5 +1,6 @@
 # Ignore Python files
 __pycache__/
+*.pyc
 
 # Ignore textfile which has to be downloaded manualle
 #Trebuchet.ttf
