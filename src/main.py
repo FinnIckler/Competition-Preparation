@@ -98,9 +98,8 @@ while True:
     print("Wrong input, please enter one of the available options.\n")
 
 
-if access_token_found:
-    if not parser_args.use_access_token:
-        use_access_token = apis.get_information(
+if access_token_found and not parser_args.use_access_token:
+    use_access_token = apis.get_information(
             "An access token from a previous run of this script was found. Would you like to use this one to proceed? (No password input will be necessary)"
         )
 
@@ -198,7 +197,7 @@ if new_creation or create_only_nametags:
 
 # Create blank scoresheets
 elif blank_sheets:
-    if parser_args.scrambler_signature or not parser_args.no_scrambler_signature:
+    if parser_args.scrambler_signature:
         scrambler_signature = parser_args.scrambler_signature
     else:
         scrambler_signature = apis.get_information(
@@ -209,7 +208,7 @@ elif blank_sheets:
 
 # Select grouping file if only nametags should be generated
 elif reading_grouping_from_file_bool:
-    if parser_args.wca_registration or not parser_args.no_wca_registration:
+    if parser_args.wca_registration:
         wca_info = parser_args.wca_registration
     else:
         wca_info = apis.get_information(
@@ -220,7 +219,7 @@ elif reading_grouping_from_file_bool:
     wca_password, wca_mail, competition_name, competition_name_stripped = apis.wca_registration(
         bool, parser_args
     )
-    if parser_args.scrambler_signature or not parser_args.no_scrambler_signature:
+    if parser_args.scrambler_signature:
         scrambler_signature = parser_args.scrambler_signature
     else:
         scrambler_signature = apis.get_information(
@@ -254,7 +253,7 @@ elif reading_grouping_from_file_bool:
 
 # Create schedule from wca website information
 elif create_only_schedule:
-    if parser_args.wca_registration or not parser_args.no_wca_registration:
+    if parser_args.wca_registration:
         wca_info = parser_args.wca_registration
     else:
         wca_info = apis.get_information(
