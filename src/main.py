@@ -13,19 +13,39 @@ from lib.parser import PreperationParser
 from constants import EVENT_DICT, EVENT_IDS, MODES
 from lib.utils import *
 
+def blanks(): 
+    scrambler_signature = True # Will be mandatory soon(tm) anyways
+    competition_name = input('Competition name or ID: (leave empty if not wanted) ')
+    blank_sheets_round_name = input('Round name: (leave empty if not needed) ')
+    print('Creating blank sheets...')
+    pdf_files.create_blank_sheets(competition_name, scrambler_signature, blank_sheets_round_name)
+
 parser = PreperationParser()
 # This shoukd be replaced by a more sane approach of asking the parser
 # What mode you are in e.g. if parser.is_x:
 parser_args = parser.parse_args()
 ### Collection of booleans and variables for various different options from this script
 # Most of these are used globally
-blank_sheets, create_only_nametags, new_creation, reading_scrambling_list_from_file, create_scoresheets_second_rounds_bool, reading_grouping_from_file_bool, only_one_competitor, create_registration_file_bool, create_only_registration_file, read_only_registration_file, create_schedule, create_only_schedule, scrambler_signature, use_cubecomps_ids = (
-    False for i in range(14)
-)
-get_registration_information, two_sided_nametags, valid_cubecomps_link = (
-    True for i in range(3)
-)
-scoresheet_competitor_name, cubecomps_id, competitors = "", "", ""
+blank_sheets, \
+create_only_nametags, \
+new_creation, \
+reading_scrambling_list_from_file, \
+create_scoresheets_second_rounds_bool, \
+reading_grouping_from_file_bool, \
+only_one_competitor, \
+create_registration_file_bool, \
+create_only_registration_file, \
+read_only_registration_file, \
+create_schedule, \
+create_only_schedule, \
+scrambler_signature, \
+use_cubecomps_ids = (False for i in range(14))
+
+get_registration_information, \
+two_sided_nametags, \
+valid_cubecomps_link = (True for i in range(3))
+
+scoresheet_competitor_name, cubecomps_id, competitors = '', '', ''
 competitors_api, scrambler_list, result_string = [], [], []
 
 access_token_found = False
@@ -51,14 +71,17 @@ while True:
 
     print("")
     if program_type.isdigit() and int(program_type) in range(1, 10):
+        if program_type == '3':
+            blanks()
+            sys.exit()
+
         new_creation = program_type in ["1", "4"]
         create_registration_file_bool = program_type in ["1", "4"]
         create_schedule = program_type in ["1", "6"]
 
         create_scoresheets_second_rounds_bool = program_type in ["2"]
 
-        blank_sheets = program_type in ["3"]
-        get_registration_information = program_type not in ["3"]
+        get_registration_information = True # program_type not in ["3"]
 
         create_only_registration_file = program_type in ["4"]
 
@@ -81,7 +104,7 @@ if access_token_found and not parser_args.use_access_token:
 ### Evaluation of script selection and initialization
 # Get necessary information for new competition
 
-# Ran if program_type is 1 or 5
+# Ran if program_type is 1, 4, 5
 if new_creation or create_only_nametags:
     if parser_args.wca_registration:
         wca_info = parser_args.wca_registration
@@ -169,20 +192,8 @@ if new_creation or create_only_nametags:
         "Saved registration information from WCA website, extracting data now and collect relevant information..."
     )
 
-# Create blank scoresheets
-# Ran if program_type is 3
-elif blank_sheets:
-    if parser_args.scrambler_signature:
-        scrambler_signature = parser_args.scrambler_signature
-    else:
-        scrambler_signature = get_confirmation(
-            "Add scrambler signature field to scorecards? (y/n)"
-        )
-    competition_name = input("Competition name or ID: (leave empty if not wanted) ")
-    blank_sheets_round_name = input("Round name: (leave empty if not needed) ")
-
 # Select grouping file if only nametags should be generated
-# Ran if program_type is 5,7 or 8
+# Ran if program_type is (5,) 7 or 8 ACHTUNG 5 already caught above, cause elif
 elif reading_grouping_from_file_bool:
     if parser_args.wca_registration:
         wca_info = parser_args.wca_registration
@@ -334,7 +345,8 @@ elif create_scoresheets_second_rounds_bool:
         )
 
 # Get all information from wca competition (using WCIF) and collection information from WCA database export
-# Ran if program_type is 1, 2, 4, 5, 6, 7 or 8
+# Ran if program_type is 1, 2, 4, 5, 6, 7 or 8 
+# Ran always now! cause 3 (blanks) already caught
 if get_registration_information:
     # Extract data from WCIF file
     wca_json = json.loads(competition_wcif_file)
@@ -442,7 +454,7 @@ if get_registration_information:
         registration_list = registration_list_wca
 
 ### Parse registration file
-# When is this being run??
+# When is this being run?? True if something in first 1, 4, 5 case...
 if read_only_registration_file:
     use_csv_registration_file = False
     analysis.column_ids, event_list, event_counter, competitor_information, all_data, wca_ids = analysis.get_registration_from_file(
@@ -460,7 +472,7 @@ if read_only_registration_file:
     )
 
 ### Create schedule (if exists on WCA website)
-# Ran if program_type is 6
+# Ran if 1 or 6 + something happens, full_schedule comes back from analysis.get_schedule_from_wcif(wca_json)
 if create_schedule and full_schedule:
     full_schedule = sorted(
         sorted(full_schedule, key=lambda x: x["event_name"]),
@@ -515,14 +527,6 @@ if create_registration_file_bool:
     if create_only_registration_file:
         sys.exit()
 
-### Create blank scoresheets if wanted
-# Ran if program_type is is 3
-if blank_sheets:
-    print("Creating blank sheets...")
-    pdf_files.create_blank_sheets(
-        competition_name, scrambler_signature, blank_sheets_round_name
-    )
-
 ### Create scoresheets for consecutive rounds and exit script
 # Ran if program_type is 2
 if create_scoresheets_second_rounds_bool:
@@ -539,6 +543,7 @@ if create_scoresheets_second_rounds_bool:
     )
 
 ### Create new string for grouping and add name + DOB
+# Ran if I dont fucking know
 if registration_list:
     result_string = helper.initiate_result_string(registration_list)
 
@@ -620,6 +625,7 @@ if new_creation:
     print("Grouping and scrambling done.")
 
 # Get scrambler list from file if needed for nametags
+# Ran if I dont fucking know
 if reading_scrambling_list_from_file:
     with open(scrambling_file_name, "r", encoding="utf8") as f:
         reader = csv.reader(f)
@@ -628,8 +634,8 @@ if reading_scrambling_list_from_file:
     scrambler_list = helper.update_scrambler_list(scrambler_list)
 
 ### Save all results to separate files
-# Ran if program_type is 1,3,4 or 5
-if new_creation or blank_sheets or create_only_nametags:
+# Ran if program_type is 1, 4 or 5
+if new_creation or create_only_nametags:
     print("")
     print("Create nametags...")
     output_scrambling = "{}/{}Scrambling.csv".format(
@@ -674,7 +680,7 @@ if new_creation or blank_sheets or create_only_nametags:
 
 # Scoresheet file
 # EXCEPTION: no scoresheets created for 3x3x3 Fewest Moves
-# Ran if program_type is 1,2 or 4
+# Ran if program_type is 1, 4, 5, 7, or 8
 if new_creation or reading_grouping_from_file_bool:
     if reading_grouping_from_file_bool:
         result_string, EVENT_IDS = analysis.get_grouping_from_file(
