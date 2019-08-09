@@ -12,7 +12,9 @@ import pdf_file_generation as pdf_files
 from lib.parser import PreperationParser
 from constants import EVENT_DICT, EVENT_IDS
 parser = PreperationParser()
-
+# This shoukd be replaced by a more sane approach of asking the parser 
+# What mode you are in e.g. uf parser.is_x:
+parser_args = parser.parser_args()
 ### Collection of booleans and variables for various different options from this script
 # Most of these are used globally
 blank_sheets, create_only_nametags, new_creation, reading_scrambling_list_from_file, create_scoresheets_second_rounds_bool, reading_grouping_from_file_bool, only_one_competitor, create_registration_file_bool, create_only_registration_file, read_only_registration_file, create_schedule, create_only_schedule, scrambler_signature, use_cubecomps_ids = (
