@@ -50,44 +50,22 @@ while True:
         program_type = input("")
 
     print("")
-    if program_type.isdigit():
-        if program_type == "1":
-            new_creation = True
-            create_registration_file_bool = True
-            create_schedule = True
-            break
-        elif program_type == "2":
-            create_scoresheets_second_rounds_bool = True
-            break
-        elif program_type == "3":
-            blank_sheets = True
-            get_registration_information = False
-            break
-        elif program_type == "4":
-            create_registration_file_bool = True
-            create_only_registration_file = True
-            new_creation = True
-            break
-        elif program_type == "5":
-            create_only_nametags = True
-            reading_grouping_from_file_bool = True
-            break
-        elif program_type == "6":
-            create_schedule = True
-            create_only_schedule = True
-            break
-        elif program_type == "7":
-            reading_grouping_from_file_bool = True
-            break
-        elif program_type == "8":
-            reading_grouping_from_file_bool = True
-            only_one_competitor = True
-            break
-        elif program_type == "9":
+    if program_type.isdigit() and int(program_type) in range(1, 10):
+        new_creation = program_type in ["1", "4"]
+        create_registration_file_bool = program_type in ["1", "4"]
+        create_schedule = program_type in ["1", "6"]
+        create_scoresheets_second_rounds_bool = program_type in ["2"]
+        blank_sheets = program_type in ["3"]
+        get_registration_information = program_type not in ["3"]
+        create_only_registration_file = program_type in ["4"]
+        create_only_nametags = program_type in ["5"]
+        reading_grouping_from_file_bool = program_type in ["5", "7", "8"]
+        create_only_schedule = program_type in ["6"]
+        only_one_competitor = program_type in ["8"]
+        if program_type == "9":
             print("Quitting programm.")
             sys.exit()
-
-    print("Wrong input, please enter one of the available options.\n")
+        break
 
 
 if access_token_found and not parser_args.use_access_token:
