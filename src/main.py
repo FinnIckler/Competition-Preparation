@@ -28,9 +28,9 @@ scoresheet_competitor_name, cubecomps_id, competitors = "", "", ""
 competitors_api, scrambler_list, result_string = [], [], []
 
 access_token_found = False
-if parser_args.use_access_token:
-    access_token_found = key_exists()
-    parser_args.use_access_token = access_token_found
+if parser_args.use_access_token and key_exists():
+    parser_args.use_access_token = True
+    parser_args.access_token = get_key()
 
 
 ### Selection of script functions
