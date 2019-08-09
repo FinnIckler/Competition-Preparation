@@ -38,3 +38,14 @@ EVENT_IDS = {
     "555bf": 999,
     "333mbf": 999,
 }
+MODES = [
+    "Competition preparation (grouping, scrambling, scoresheets, nametags, schedule, registration file)",
+    "Scoresheets for consecutive rounds",
+    "Blank scoresheets",
+    "Registration information",
+    "Nametags",
+    "Schedule",
+    "Scoresheets from grouping-file (all)",
+    "Scoresheets from grouping-file (for one person)",
+    "Quit",
+]

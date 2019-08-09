@@ -10,10 +10,11 @@ import information_analysis as analysis
 import grouping_scrambling_functions as grouping_scrambling
 import pdf_file_generation as pdf_files
 from lib.parser import PreperationParser
-from constants import EVENT_DICT, EVENT_IDS
+from constants import EVENT_DICT, EVENT_IDS, MODES
 from lib.utils import *
+
 parser = PreperationParser()
-# This shoukd be replaced by a more sane approach of asking the parser 
+# This shoukd be replaced by a more sane approach of asking the parser
 # What mode you are in e.g. if parser.is_x:
 parser_args = parser.parse_args()
 ### Collection of booleans and variables for various different options from this script
@@ -44,19 +45,10 @@ while True:
             "Input for script options was missing/wrong, please select an option manually."
         )
         print("Please select: ")
-        print(
-            "1. Competition preparation (grouping, scrambling, scoresheets, nametags, schedule, registration file)"
-        )
-        print("2. Scoresheets for consecutive rounds")
-        print("3. Blank scoresheets")
-        print("4. Registration information")
-        print("5. Nametags")
-        print("6. Schedule")
-        print("7. Scoresheets from grouping-file (all)")
-        print("8. Scoresheets from grouping-file (for one person)")
-        print("9. Quit")
+        for i, mode in enumerate(MODES):
+            print("{}. {}".format(i + 1, mode))
         program_type = input("")
-    
+
     print("")
     if program_type.isdigit():
         if program_type == "1":
@@ -100,8 +92,8 @@ while True:
 
 if access_token_found and not parser_args.use_access_token:
     use_access_token = apis.get_information(
-            "An access token from a previous run of this script was found. Would you like to use this one to proceed? (No password input will be necessary)"
-        )
+        "An access token from a previous run of this script was found. Would you like to use this one to proceed? (No password input will be necessary)"
+    )
 
 ### Evaluation of script selection and initialization
 # Get necessary information for new competition
