@@ -54,12 +54,17 @@ while True:
         new_creation = program_type in ["1", "4"]
         create_registration_file_bool = program_type in ["1", "4"]
         create_schedule = program_type in ["1", "6"]
+
         create_scoresheets_second_rounds_bool = program_type in ["2"]
+
         blank_sheets = program_type in ["3"]
         get_registration_information = program_type not in ["3"]
+
         create_only_registration_file = program_type in ["4"]
+
         create_only_nametags = program_type in ["5"]
         reading_grouping_from_file_bool = program_type in ["5", "7", "8"]
+
         create_only_schedule = program_type in ["6"]
         only_one_competitor = program_type in ["8"]
         if program_type == "9":
@@ -75,6 +80,8 @@ if access_token_found and not parser_args.use_access_token:
 
 ### Evaluation of script selection and initialization
 # Get necessary information for new competition
+
+# Ran if program_type is 1 or 5
 if new_creation or create_only_nametags:
     if parser_args.wca_registration:
         wca_info = parser_args.wca_registration
@@ -166,6 +173,7 @@ if new_creation or create_only_nametags:
     )
 
 # Create blank scoresheets
+# Ran if program_type is 3
 elif blank_sheets:
     if parser_args.scrambler_signature:
         scrambler_signature = parser_args.scrambler_signature
@@ -177,6 +185,7 @@ elif blank_sheets:
     blank_sheets_round_name = input("Round name: (leave empty if not needed) ")
 
 # Select grouping file if only nametags should be generated
+# Ran if program_type is 5,7 or 8
 elif reading_grouping_from_file_bool:
     if parser_args.wca_registration:
         wca_info = parser_args.wca_registration
@@ -222,6 +231,7 @@ elif reading_grouping_from_file_bool:
     )
 
 # Create schedule from wca website information
+# Ran if program_type is 6
 elif create_only_schedule:
     if parser_args.wca_registration:
         wca_info = parser_args.wca_registration
@@ -255,6 +265,7 @@ elif create_only_schedule:
         )
 
 # Create scoresheets for seconds rounds by using cubecomps.com information
+# Ran if program_type is 2
 elif create_scoresheets_second_rounds_bool:
     use_cubecomps_ids = True
     if parser_args.cubecomps:
@@ -325,7 +336,8 @@ elif create_scoresheets_second_rounds_bool:
             competition_name, competition_name_stripped, access_token
         )
 
-### Get all information from wca competition (using WCIF) and collection information from WCA database export
+# Get all information from wca competition (using WCIF) and collection information from WCA database export
+# Ran if program_type is 1, 2, 4, 5, 6, 7 or 8
 if get_registration_information:
     # Extract data from WCIF file
     wca_json = json.loads(competition_wcif_file)
@@ -433,6 +445,7 @@ if get_registration_information:
         registration_list = registration_list_wca
 
 ### Parse registration file
+# When is this being run??
 if read_only_registration_file:
     use_csv_registration_file = False
     analysis.column_ids, event_list, event_counter, competitor_information, all_data, wca_ids = analysis.get_registration_from_file(
@@ -450,6 +463,7 @@ if read_only_registration_file:
     )
 
 ### Create schedule (if exists on WCA website)
+# Ran if program_type is 6
 if create_schedule and full_schedule:
     full_schedule = sorted(
         sorted(full_schedule, key=lambda x: x["event_name"]),
@@ -487,6 +501,7 @@ elif create_schedule:
     )
 
 ### Create registration file (.csv)
+# Ran if program_type is 1 or 4
 if create_registration_file_bool:
     print("")
     print("Create registration file...")
@@ -504,6 +519,7 @@ if create_registration_file_bool:
         sys.exit()
 
 ### Create blank scoresheets if wanted
+# Ran if program_type is is 3
 if blank_sheets:
     print("Creating blank sheets...")
     pdf_files.create_blank_sheets(
@@ -511,6 +527,7 @@ if blank_sheets:
     )
 
 ### Create scoresheets for consecutive rounds and exit script
+# Ran if program_type is 2
 if create_scoresheets_second_rounds_bool:
     print("Creating scoresheets for {} ...".format(event_round_name))
     pdf_files.create_scoresheets_second_rounds(
@@ -529,6 +546,7 @@ if registration_list:
     result_string = helper.initiate_result_string(registration_list)
 
 ### Check for matching registration and grouping information
+# Ran if program_type is 5
 if create_only_nametags:
     if two_sided_nametags:
         result_string, event_ids = analysis.get_grouping_from_file(
@@ -566,6 +584,7 @@ if create_only_nametags:
 # - rankings for all events at competition
 # - competition count per competitor
 # - single and average rankings for 3x3x3 for each competitior
+# Ran if program_type is 1, 4 or 5
 if new_creation or create_only_nametags:
     if wca_ids and event_list:
         print("Get necessary results from WCA website, this may take a few seconds...")
@@ -574,6 +593,7 @@ if new_creation or create_only_nametags:
         )
 
 # Run grouping and scrambling
+# Ran if program_type is 1 or 4
 if new_creation:
     print("")
     print("Running grouping and scrambling...")
@@ -611,6 +631,7 @@ if reading_scrambling_list_from_file:
     scrambler_list = helper.update_scrambler_list(scrambler_list)
 
 ### Save all results to separate files
+# Ran if program_type is 1,3,4 or 5
 if new_creation or blank_sheets or create_only_nametags:
     print("")
     print("Create nametags...")
@@ -656,6 +677,7 @@ if new_creation or blank_sheets or create_only_nametags:
 
 # Scoresheet file
 # EXCEPTION: no scoresheets created for 3x3x3 Fewest Moves
+# Ran if program_type is 1,2 or 4
 if new_creation or reading_grouping_from_file_bool:
     if reading_grouping_from_file_bool:
         result_string, events_ids = analysis.get_grouping_from_file(
