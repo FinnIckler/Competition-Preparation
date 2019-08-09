@@ -263,7 +263,7 @@ elif create_scoresheets_second_rounds_bool:
     )
 
     event_2 = event_round_name.split(" - ")[0].replace(" Cube", "")
-    event_2 = list(event_dict.keys())[list(event_dict.values()).index(event_2)]
+    event_2 = list(EVENT_DICT.keys())[list(EVENT_DICT.values()).index(event_2)]
 
     current_round_number = (
         event_round_name.split(" - ")[1]
@@ -340,7 +340,7 @@ if get_registration_information:
 
     # Events
     event_ids_wca, group_list, event_info, event_counter_wca, minimal_scramble_set_count, round_counter, event_list_wca = analysis.get_events_from_wcif(
-        wca_json, event_dict
+        wca_json, EVENT_DICT
     )
 
     # Schedule
@@ -528,10 +528,10 @@ if registration_list:
 ### Check for matching registration and grouping information
 if create_only_nametags:
     if two_sided_nametags:
-        result_string, event_ids = analysis.get_grouping_from_file(
+        result_string, EVENT_IDS = analysis.get_grouping_from_file(
             grouping_file_name,
-            event_dict,
-            event_ids,
+            EVENT_DICT,
+            EVENT_IDS,
             only_one_competitor,
             scoresheet_competitor_name,
         )
@@ -581,7 +581,7 @@ if new_creation:
         analysis.column_ids,
         ranking_single,
         competition_count,
-        event_ids,
+        EVENT_IDS,
         event_ids_wca,
         competitor_information,
         round_counter,
@@ -626,9 +626,9 @@ if new_creation or blank_sheets or create_only_nametags:
         two_sided_nametags,
         create_only_nametags,
         result_string,
-        event_ids,
+        EVENT_IDS,
         scrambler_list,
-        event_dict,
+        EVENT_DICT,
         round_counter,
         group_list,
     )
@@ -637,7 +637,7 @@ if new_creation or blank_sheets or create_only_nametags:
 
     # Grouping file
     pdf_files.create_grouping_file(
-        output_grouping, event_ids, event_dict, result_string
+        output_grouping, EVENT_IDS, EVENT_DICT, result_string
     )
 
     # Scrambling file
@@ -655,10 +655,10 @@ if new_creation or blank_sheets or create_only_nametags:
 # EXCEPTION: no scoresheets created for 3x3x3 Fewest Moves
 if new_creation or reading_grouping_from_file_bool:
     if reading_grouping_from_file_bool:
-        result_string, events_ids = analysis.get_grouping_from_file(
+        result_string, EVENT_IDS = analysis.get_grouping_from_file(
             grouping_file_name,
-            event_dict,
-            event_ids,
+            EVENT_DICT,
+            EVENT_IDS,
             only_one_competitor,
             scoresheet_competitor_name,
         )
@@ -668,9 +668,9 @@ if new_creation or reading_grouping_from_file_bool:
         competition_name,
         competition_name_stripped,
         result_string,
-        event_ids,
+        EVENT_IDS,
         event_info,
-        event_dict,
+        EVENT_DICT,
         only_one_competitor,
         round_counter,
         competitor_information,
