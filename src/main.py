@@ -29,32 +29,34 @@ competitors_api, scrambler_list, result_string = [], [], []
 
 access_token_found = False
 if parser_args.use_access_token and key_exists():
-    parser_args.use_access_token = True
-    parser_args.access_token = get_key()
+    access_token = get_key()
+    access_token_found = True
+else:
+    parser_args.use_access_token = False
 
 
 ### Selection of script functions
 while True:
-    print("Please select: ")
-    print(
-        "1. Competition preparation (grouping, scrambling, scoresheets, nametags, schedule, registration file)"
-    )
-    print("2. Scoresheets for consecutive rounds")
-    print("3. Blank scoresheets")
-    print("4. Registration information")
-    print("5. Nametags")
-    print("6. Schedule")
-    print("7. Scoresheets from grouping-file (all)")
-    print("8. Scoresheets from grouping-file (for one person)")
-    print("9. Quit")
     if parser_args.option and int(parser_args.option) in range(1, 9):
         program_type = parser_args.option
     else:
-        if parser_args.option:
-            print(
-                "Input for script options was wrong in parser, please select correct option manually."
-            )
+        print(
+            "Input for script options was missing/wrong, please select an option manually."
+        )
+        print("Please select: ")
+        print(
+            "1. Competition preparation (grouping, scrambling, scoresheets, nametags, schedule, registration file)"
+        )
+        print("2. Scoresheets for consecutive rounds")
+        print("3. Blank scoresheets")
+        print("4. Registration information")
+        print("5. Nametags")
+        print("6. Schedule")
+        print("7. Scoresheets from grouping-file (all)")
+        print("8. Scoresheets from grouping-file (for one person)")
+        print("9. Quit")
         program_type = input("")
+    
     print("")
     if program_type.isdigit():
         if program_type == "1":
@@ -187,7 +189,7 @@ if new_creation or create_only_nametags:
             )
         else:
             competition_wcif_file = apis.get_wca_info(
-                competition_name, competition_name_stripped, parser_args.access_token
+                competition_name, competition_name_stripped, access_token
             )
 
     print(
@@ -243,7 +245,7 @@ elif reading_grouping_from_file_bool:
         )
     else:
         competition_wcif_file = apis.get_wca_info(
-            competition_name, competition_name_stripped, parser_args.access_token
+            competition_name, competition_name_stripped, access_token
         )
 
     competitors_api, cubecomps_id, use_cubecomps_ids = apis.get_cubecomps_competition(
@@ -280,7 +282,7 @@ elif create_only_schedule:
         )
     else:
         competition_wcif_file = apis.get_wca_info(
-            competition_name, competition_name_stripped, parser_args.access_token
+            competition_name, competition_name_stripped, access_token
         )
 
 # Create scoresheets for seconds rounds by using cubecomps.com information
@@ -351,7 +353,7 @@ elif create_scoresheets_second_rounds_bool:
         )
     else:
         competition_wcif_file = apis.get_wca_info(
-            competition_name, competition_name_stripped, parser_args.access_token
+            competition_name, competition_name_stripped, access_token
         )
 
 ### Get all information from wca competition (using WCIF) and collection information from WCA database export
