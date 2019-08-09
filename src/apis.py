@@ -317,23 +317,6 @@ def get_cubecomps_competition(create_only_nametags, competition_name, competitio
         print('')
     return (competitors_api, cubecomps_id, use_cubecomps_ids) 
 
-# Return if certain information should be used or not (by using y/n choice)
-def get_information(information_string):
-    print(information_string)
-
-    while True:
-        input_information = input('')
-        if input_information.upper() in ('N', 'Y'):
-            break
-        else:
-            print('Wrong input, please enter \'y\' or \'n\'.')
-            print('')
-
-    if input_information.upper() == 'Y':
-        return True
-    else:
-        return False
-
 # Get registration/grouping/scrambling file if it is in .csv. or .txt format
 def get_file_name(id, file_name_parser):
     while True:

@@ -91,7 +91,7 @@ while True:
 
 
 if access_token_found and not parser_args.use_access_token:
-    use_access_token = apis.get_information(
+    use_access_token = get_confirmation(
         "An access token from a previous run of this script was found. Would you like to use this one to proceed? (No password input will be necessary)"
     )
 
@@ -101,7 +101,7 @@ if new_creation or create_only_nametags:
     if parser_args.wca_registration:
         wca_info = parser_args.wca_registration
     else:
-        wca_info = apis.get_information(
+        wca_info = get_confirmation(
             "Used WCA registration for this competition? (y/n) "
         )
     if wca_info:
@@ -118,7 +118,7 @@ if new_creation or create_only_nametags:
         if parser_args.two_sided or not parser_args.no_two_sided:
             two_sided_nametags = parser_args.two_sided
         else:
-            two_sided_nametags = apis.get_information(
+            two_sided_nametags = get_confirmation(
                 "Create two-sided nametags? (grouping (and scrambling) information on the back) (y/n)"
             )
         if two_sided_nametags:
@@ -139,7 +139,7 @@ if new_creation or create_only_nametags:
             ):
                 scrambler_signature = parser_args.scrambler_signature
             else:
-                scrambler_signature = apis.get_information(
+                scrambler_signature = get_confirmation(
                     "Add scrambler signature field to scorecards? (y/n)"
                 )
 
@@ -192,7 +192,7 @@ elif blank_sheets:
     if parser_args.scrambler_signature:
         scrambler_signature = parser_args.scrambler_signature
     else:
-        scrambler_signature = apis.get_information(
+        scrambler_signature = get_confirmation(
             "Add scrambler signature field to scorecards? (y/n)"
         )
     competition_name = input("Competition name or ID: (leave empty if not wanted) ")
@@ -203,7 +203,7 @@ elif reading_grouping_from_file_bool:
     if parser_args.wca_registration:
         wca_info = parser_args.wca_registration
     else:
-        wca_info = apis.get_information(
+        wca_info = get_confirmation(
             "Used WCA registration for this competition? (y/n) "
         )
     if wca_info:
@@ -214,7 +214,7 @@ elif reading_grouping_from_file_bool:
     if parser_args.scrambler_signature:
         scrambler_signature = parser_args.scrambler_signature
     else:
-        scrambler_signature = apis.get_information(
+        scrambler_signature = get_confirmation(
             "Add scrambler signature field to scorecards? (y/n)"
         )
     if only_one_competitor:
@@ -248,7 +248,7 @@ elif create_only_schedule:
     if parser_args.wca_registration:
         wca_info = parser_args.wca_registration
     else:
-        wca_info = apis.get_information(
+        wca_info = get_confirmation(
             "Used WCA registration for this competition? (y/n) "
         )
     if wca_info:
@@ -323,7 +323,7 @@ elif create_scoresheets_second_rounds_bool:
     if parser_args.wca_registration or not parser_args.no_wca_registration:
         wca_info = parser_args.wca_registration
     else:
-        wca_info = apis.get_information(
+        wca_info = get_confirmation(
             "Used WCA registration for this competition? (y/n) "
         )
     if wca_info:
@@ -331,7 +331,7 @@ elif create_scoresheets_second_rounds_bool:
     if parser_args.scrambler_signature or not parser_args.no_scrambler_signature:
         scrambler_signature = parser_args.scrambler_signature
     else:
-        scrambler_signature = apis.get_information(
+        scrambler_signature = get_confirmation(
             "Add scrambler signature field to scorecards? (y/n)"
         )
     file_name, grouping_file_name = apis.competition_information_fetch(
@@ -406,7 +406,7 @@ if get_registration_information:
         )
         sys.exit()
     if minimal_scramble_set_count == 1:
-        continue_script = apis.get_information(
+        continue_script = get_confirmation(
             "It looks like all your events only have one set of scrambles. Do you still want to continue running this script? (y/n)"
         )
         if not continue_script:
