@@ -115,7 +115,7 @@ if new_creation or create_only_nametags:
             True, parser_args
         )
     if not create_only_registration_file:
-        if parser_args.two_sided or not parser_args.no_two_sided:
+        if parser_args.two_sided:
             two_sided_nametags = parser_args.two_sided
         else:
             two_sided_nametags = get_confirmation(
@@ -133,10 +133,7 @@ if new_creation or create_only_nametags:
         )
 
         if not create_only_nametags:
-            if (
-                parser_args.scrambler_signature
-                or not parser_args.no_scrambler_signature
-            ):
+            if (parser_args.scrambler_signature):
                 scrambler_signature = parser_args.scrambler_signature
             else:
                 scrambler_signature = get_confirmation(
@@ -328,7 +325,7 @@ elif create_scoresheets_second_rounds_bool:
         )
     if wca_info:
         print("Using WCA website information.")
-    if parser_args.scrambler_signature or not parser_args.no_scrambler_signature:
+    if parser_args.scrambler_signature:
         scrambler_signature = parser_args.scrambler_signature
     else:
         scrambler_signature = get_confirmation(
