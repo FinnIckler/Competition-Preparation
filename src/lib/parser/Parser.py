@@ -1,8 +1,8 @@
-import argpase.ArgumentParser as ArgumentParser
+from argparse import ArgumentParser
 
 class PreperationParser(ArgumentParser):
     def __init__(self):
-        super.__init__(description="Give input to script to skip steps during run time.")
+        super().__init__(description="Give input to script to skip steps during run time.")
         self.add_argument(
         "-m", "--mail", help="WCA account mail address which is used for login."
         )
@@ -50,4 +50,4 @@ class PreperationParser(ArgumentParser):
         )
 
     def isValid(self):
-
+        pass

@@ -13,8 +13,8 @@ from lib.parser import PreperationParser
 from constants import EVENT_DICT, EVENT_IDS
 parser = PreperationParser()
 # This shoukd be replaced by a more sane approach of asking the parser 
-# What mode you are in e.g. uf parser.is_x:
-parser_args = parser.parser_args()
+# What mode you are in e.g. if parser.is_x:
+parser_args = parser.parse_args()
 ### Collection of booleans and variables for various different options from this script
 # Most of these are used globally
 blank_sheets, create_only_nametags, new_creation, reading_scrambling_list_from_file, create_scoresheets_second_rounds_bool, reading_grouping_from_file_bool, only_one_competitor, create_registration_file_bool, create_only_registration_file, read_only_registration_file, create_schedule, create_only_schedule, scrambler_signature, use_cubecomps_ids = (
@@ -122,7 +122,7 @@ if access_token_found:
 ### Evaluation of script selection and initialization
 # Get necessary information for new competition
 if new_creation or create_only_nametags:
-    if parser_args.wca_registration or not parser_args.no_wca_registration:
+    if parser_args.wca_registration:
         wca_info = parser_args.wca_registration
     else:
         wca_info = apis.get_information(
