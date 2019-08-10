@@ -13,6 +13,7 @@ from lib.parser import PreperationParser
 from constants import EVENT_DICT, EVENT_IDS, MODE_HELP, Modes
 from lib.utils import *
 from lib.actions import Executor
+from lib.api.wca import *
 
 parser = PreperationParser()
 # This shoukd be replaced by a more sane approach of asking the parser
@@ -210,7 +211,7 @@ elif reading_grouping_from_file_bool:
     if only_one_competitor:
         scoresheet_competitor_name = input("Competitor name or WCA ID: ")
         try:
-            scoresheet_competitor_api = apis.get_wca_competitor(
+            scoresheet_competitor_api = get_wca_competitor(
                 scoresheet_competitor_name
             )
             if scoresheet_competitor_api:

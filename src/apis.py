@@ -120,39 +120,41 @@ def get_wca_info(competition_name, competition_name_stripped, *args):
     return competition_wcif_info.text
 
 # Simple request to get information about one competitor
-def get_wca_competitor(wca_id):
-    url = 'https://www.worldcubeassociation.org/api/v0/persons/{}'.format(wca_id)
-    competitor_info = ''
-    api_info = requests.get(url)
-    try:
-        competitor_info = json.loads(api_info.text)
-    except KeyError:
-        pass
-    except json.decoder.JSONDecodeError:
-        pass
-    return competitor_info
+# MOVED OVER TO API MODULE
+# def get_wca_competitor(wca_id):
+#     url = 'https://www.worldcubeassociation.org/api/v0/persons/{}'.format(wca_id)
+#     competitor_info = ''
+#     api_info = requests.get(url)
+#     try:
+#         competitor_info = json.loads(api_info.text)
+#     except KeyError:
+#         pass
+#     except json.decoder.JSONDecodeError:
+#         pass
+#     return competitor_info
 
 # The WCA API provides the option to get up to 100 WCA at the same time. This improves performance a lot.
-def get_wca_competitors(wca_ids):
-    competitors_info = []
+# MOVED OVER TO API MODULE
+# def get_wca_competitors(wca_ids):
+#     competitors_info = []
     
-    # Split WCA IDs up into batches of 100 each time and request information from WCA API
-    for competitors in range(0,math.ceil(len(wca_ids)/100)):
-        wca_ids_partial = wca_ids[competitors*100:(competitors+1)*100]
-        url = 'https://www.worldcubeassociation.org/api/v0/persons?wca_ids={}&per_page=150'.format(','.join(wca_ids_partial))
+#     # Split WCA IDs up into batches of 100 each time and request information from WCA API
+#     for competitors in range(0,math.ceil(len(wca_ids)/100)):
+#         wca_ids_partial = wca_ids[competitors*100:(competitors+1)*100]
+#         url = 'https://www.worldcubeassociation.org/api/v0/persons?wca_ids={}&per_page=150'.format(','.join(wca_ids_partial))
     
-        api_info = requests.get(url)
+#         api_info = requests.get(url)
 
-        try:
-            competitors_info.extend(json.loads(api_info.text))
-        except KeyError:
-            print('ERROR! Something went wrong while communication with the WCA website, please restart script.')
-            sys.exit()
-        except json.decoder.JSONDecodeError:
-            print('ERROR! Something went wrong while communication with the WCA website, please restart script.')
-            sys.exit()
+#         try:
+#             competitors_info.extend(json.loads(api_info.text))
+#         except KeyError:
+#             print('ERROR! Something went wrong while communication with the WCA website, please restart script.')
+#             sys.exit()
+#         except json.decoder.JSONDecodeError:
+#             print('ERROR! Something went wrong while communication with the WCA website, please restart script.')
+#             sys.exit()
 
-    return competitors_info
+#     return competitors_info
 
 # Simple request to get information about input competition name
 def get_wca_competition(competition_name):
