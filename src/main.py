@@ -8,6 +8,7 @@ import helpers.helpers as helper
 import apis
 import information_analysis as analysis
 import grouping_scrambling_functions as grouping_scrambling
+import pdf_file_generation as pdf_files
 from lib.parser import PreperationParser
 from constants import EVENT_DICT, EVENT_IDS, MODE_HELP, Modes
 from lib.utils import *
