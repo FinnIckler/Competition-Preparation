@@ -11,6 +11,7 @@ __pycache__/
 *2020/
 
 .DS_Store
+.vscode
 
 # Ignore generated blank scoresheets
 *_Scoresheets.pdf

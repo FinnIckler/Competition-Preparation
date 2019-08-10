@@ -1,5 +1,6 @@
 import apis
 import os
+import datetime
 
 def key_exists() -> bool:
     return os.path.isfile(".secret")

@@ -65,7 +65,7 @@ while True:
 
     print("")
     if program_type.isdigit() and int(program_type) in range(1, 10):
-        if program_type == '3':
+        if program_type in ['3', '4']:
             executor = Executor(parser)
             executor.execute_action(int(program_type))
             sys.exit()
@@ -467,7 +467,7 @@ if read_only_registration_file:
     )
 
 ### Create schedule (if exists on WCA website)
-# Ran if 1 or 6 + something happens, full_schedule comes back from analysis.get_schedule_from_wcif(wca_json)
+# Ran if (1 or 6) and something happens, full_schedule comes back from analysis.get_schedule_from_wcif(wca_json)
 if create_schedule and full_schedule:
     full_schedule = sorted(
         sorted(full_schedule, key=lambda x: x["event_name"]),

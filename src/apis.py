@@ -76,7 +76,7 @@ def wca_registration(new_creation, parser):
             else:
                 competition_name = input('Competition name or ID: ')
             if competition_name.isdigit():
-                if int(competition_name) < len(upcoming_competitions):
+                if int(competition_name) <= len(upcoming_competitions):
                     competition_name = upcoming_competitions[int(competition_name)-1]['name'].replace('-', ' ')
                     not_valid_competition_name = False
                 else:

@@ -15,3 +15,7 @@ class Executor:
             from .blanks import blanks
             blanks()
         
+        if mode == Modes.REGISTRATION_INFO:
+            from .registrationInfo import printRegistration
+            printRegistration(self.parser.parse_args())
+        
