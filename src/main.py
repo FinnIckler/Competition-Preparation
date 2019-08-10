@@ -8,17 +8,10 @@ import helpers.helpers as helper
 import apis
 import information_analysis as analysis
 import grouping_scrambling_functions as grouping_scrambling
-import pdf_file_generation as pdf_files
 from lib.parser import PreperationParser
-from constants import EVENT_DICT, EVENT_IDS, MODES
+from constants import EVENT_DICT, EVENT_IDS, MODE_HELP, Modes
 from lib.utils import *
-
-def blanks(): 
-    scrambler_signature = True # Will be mandatory soon(tm) anyways
-    competition_name = input('Competition name or ID: (leave empty if not wanted) ')
-    blank_sheets_round_name = input('Round name: (leave empty if not needed) ')
-    print('Creating blank sheets...')
-    pdf_files.create_blank_sheets(competition_name, scrambler_signature, blank_sheets_round_name)
+from lib.actions import Executor
 
 parser = PreperationParser()
 # This shoukd be replaced by a more sane approach of asking the parser
@@ -65,14 +58,15 @@ while True:
             "Input for script options was missing/wrong, please select an option manually."
         )
         print("Please select: ")
-        for i, mode in enumerate(MODES):
-            print("{}. {}".format(i + 1, mode))
+        for mode in Modes:
+            print("{}. {}".format(mode.value, MODE_HELP[mode.value]))
         program_type = input("")
 
     print("")
     if program_type.isdigit() and int(program_type) in range(1, 10):
         if program_type == '3':
-            blanks()
+            executor = Executor(parser)
+            executor.execute_action(int(program_type))
             sys.exit()
 
         new_creation = program_type in ["1", "4"]

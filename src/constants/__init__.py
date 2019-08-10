@@ -1,3 +1,5 @@
+from enum import Enum
+
 EVENT_DICT = {
     "333": "3x3x3",
     "222": "2x2x2",
@@ -38,7 +40,18 @@ EVENT_IDS = {
     "555bf": 999,
     "333mbf": 999,
 }
-MODES = [
+class Modes(Enum):
+    PREPERATION = 1
+    SCORESHEETS_CONSECUTIVE = 2
+    SCORESHEETS_BLANK = 3
+    REGISTRATION_INFO = 4
+    NAMETAGS = 5
+    SCHEDULE = 6
+    SCORESHEETS_GROUPING_ALL = 7
+    SCORESHEETS_GROUPING_ONE = 8
+
+MODE_HELP = [
+    "",
     "Competition preparation (grouping, scrambling, scoresheets, nametags, schedule, registration file)",
     "Scoresheets for consecutive rounds",
     "Blank scoresheets",
