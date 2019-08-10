@@ -18,4 +18,8 @@ class Executor:
         if mode == Modes.REGISTRATION_INFO:
             from .registrationInfo import printRegistration
             printRegistration(self.parser.parse_args())
+
+        if mode == Modes.SCORESHEETS_CONSECUTIVE:
+            from .consecRound import printConsecSheets
+            printConsecSheets(self.parser.parse_args())
         

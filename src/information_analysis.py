@@ -165,7 +165,7 @@ def get_registrations_from_wcif(wca_json, create_scoresheets_second_rounds_bool,
     wca_ids = [registrations['wcaId'] for registrations in wca_json['persons'] if registrations['wcaId'] is not None]
 
     # collect WCA ID information from WCA API
-    competitor_info = apis.get_wca_competitors(wca_ids)
+    competitor_info = api.get_wca_competitors(wca_ids)
         
     for registrations in tqdm.tqdm(wca_json['persons']):
         registered_events = ()
