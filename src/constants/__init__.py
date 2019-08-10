@@ -40,6 +40,8 @@ EVENT_IDS = {
     "555bf": 999,
     "333mbf": 999,
 }
+
+
 class Modes(Enum):
     PREPERATION = 1
     SCORESHEETS_CONSECUTIVE = 2
@@ -49,6 +51,7 @@ class Modes(Enum):
     SCHEDULE = 6
     SCORESHEETS_GROUPING_ALL = 7
     SCORESHEETS_GROUPING_ONE = 8
+
 
 MODE_HELP = [
     "",
