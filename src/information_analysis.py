@@ -4,6 +4,7 @@ from modules import *
 
 import helpers.helpers as helper
 import apis
+from lib.api import wca
 
 # initialize various variables for parsing and analysis
 registration_list, competitor_information = [], []
@@ -165,7 +166,7 @@ def get_registrations_from_wcif(wca_json, create_scoresheets_second_rounds_bool,
     wca_ids = [registrations['wcaId'] for registrations in wca_json['persons'] if registrations['wcaId'] is not None]
 
     # collect WCA ID information from WCA API
-    competitor_info = api.get_wca_competitors(wca_ids)
+    competitor_info = wca.persons.get_wca_competitors(wca_ids)
         
     for registrations in tqdm.tqdm(wca_json['persons']):
         registered_events = ()

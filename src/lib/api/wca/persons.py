@@ -2,6 +2,7 @@
     Module for the functions that use the /persons endpoint of the wca "API"
 """
 import requests
+import math
 from lib.logging import Logger
 from ..api_error import API_ERROR
 
