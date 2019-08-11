@@ -23,3 +23,6 @@ class Executor:
             from .consecRound import printConsecSheets
             printConsecSheets(self.parser.parse_args())
         
+        if mode == Modes.SCHEDULE:
+            from .onlySchedule import printSchedule
+            printSchedule(self.parser.parse_args())
