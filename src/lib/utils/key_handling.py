@@ -1,5 +1,6 @@
 from lib.api.wca import get_new_token
 import os
+import datetime
 
 
 def key_exists() -> bool:

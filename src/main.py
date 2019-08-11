@@ -66,20 +66,20 @@ while True:
 
     print("")
     if program_type.isdigit() and int(program_type) in range(1, 10):
-        if program_type == '3':
+        if program_type in ['2', '3', '4']:
             executor = Executor(parser)
             executor.execute_action(int(program_type))
             sys.exit()
 
-        new_creation = program_type in ["1", "4"]
-        create_registration_file_bool = program_type in ["1", "4"]
+        new_creation = program_type == "1"
+        create_registration_file_bool = program_type == "1"
         create_schedule = program_type in ["1", "6"]
 
-        create_scoresheets_second_rounds_bool = program_type in ["2"]
+        create_scoresheets_second_rounds_bool = False # program_type == "2"
 
-        get_registration_information = True # program_type not in ["3"]
+        get_registration_information = True # program_type != "3"
 
-        create_only_registration_file = program_type in ["4"]
+        create_only_registration_file = False # program_type == "4"
 
         create_only_nametags = program_type in ["5"]
         reading_grouping_from_file_bool = program_type in ["5", "7", "8"]
@@ -100,7 +100,7 @@ if access_token_found and not parser_args.use_access_token:
 ### Evaluation of script selection and initialization
 # Get necessary information for new competition
 
-# Ran if program_type is 1, 4, 5
+# Ran if program_type is 1, 5
 if new_creation or create_only_nametags:
     if parser_args.wca_registration:
         wca_info = parser_args.wca_registration
@@ -341,7 +341,7 @@ elif create_scoresheets_second_rounds_bool:
         )
 
 # Get all information from wca competition (using WCIF) and collection information from WCA database export
-# Ran if program_type is 1, 2, 4, 5, 6, 7 or 8 
+# Ran if program_type is 1, 5, 6, 7 or 8 
 # Ran always now! cause 3 (blanks) already caught
 if get_registration_information:
     # Extract data from WCIF file
@@ -450,7 +450,7 @@ if get_registration_information:
         registration_list = registration_list_wca
 
 ### Parse registration file
-# When is this being run?? True if something in first 1, 4, 5 case...
+# When is this being run?? True if something in first 1, 5 case...
 if read_only_registration_file:
     use_csv_registration_file = False
     analysis.column_ids, event_list, event_counter, competitor_information, all_data, wca_ids = analysis.get_registration_from_file(
@@ -468,7 +468,7 @@ if read_only_registration_file:
     )
 
 ### Create schedule (if exists on WCA website)
-# Ran if 1 or 6 + something happens, full_schedule comes back from analysis.get_schedule_from_wcif(wca_json)
+# Ran if (1 or 6) and something happens, full_schedule comes back from analysis.get_schedule_from_wcif(wca_json)
 if create_schedule and full_schedule:
     full_schedule = sorted(
         sorted(full_schedule, key=lambda x: x["event_name"]),
@@ -506,7 +506,7 @@ elif create_schedule:
     )
 
 ### Create registration file (.csv)
-# Ran if program_type is 1 or 4
+# Ran if program_type is 1
 if create_registration_file_bool:
     print("")
     print("Create registration file...")
@@ -582,7 +582,7 @@ if create_only_nametags:
 # - rankings for all events at competition
 # - competition count per competitor
 # - single and average rankings for 3x3x3 for each competitior
-# Ran if program_type is 1, 4 or 5
+# Ran if program_type is 1 or 5
 if new_creation or create_only_nametags:
     if wca_ids and event_list:
         print("Get necessary results from WCA website, this may take a few seconds...")
@@ -591,7 +591,7 @@ if new_creation or create_only_nametags:
         )
 
 # Run grouping and scrambling
-# Ran if program_type is 1 or 4
+# Ran if program_type is 1
 if new_creation:
     print("")
     print("Running grouping and scrambling...")
@@ -630,7 +630,7 @@ if reading_scrambling_list_from_file:
     scrambler_list = helper.update_scrambler_list(scrambler_list)
 
 ### Save all results to separate files
-# Ran if program_type is 1, 4 or 5
+# Ran if program_type is 1 or 5
 if new_creation or create_only_nametags:
     print("")
     print("Create nametags...")
@@ -676,7 +676,7 @@ if new_creation or create_only_nametags:
 
 # Scoresheet file
 # EXCEPTION: no scoresheets created for 3x3x3 Fewest Moves
-# Ran if program_type is 1, 4, 5, 7, or 8
+# Ran if program_type is 1, 5, 7, or 8
 if new_creation or reading_grouping_from_file_bool:
     if reading_grouping_from_file_bool:
         result_string, EVENT_IDS = analysis.get_grouping_from_file(
