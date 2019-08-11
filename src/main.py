@@ -21,7 +21,6 @@ parser = PreperationParser()
 parser_args = parser.parse_args()
 ### Collection of booleans and variables for various different options from this script
 # Most of these are used globally
-blank_sheets, \
 create_only_nametags, \
 new_creation, \
 reading_scrambling_list_from_file, \
@@ -34,7 +33,7 @@ read_only_registration_file, \
 create_schedule, \
 create_only_schedule, \
 scrambler_signature, \
-use_cubecomps_ids = (False for i in range(14))
+use_cubecomps_ids = (False for i in range(13))
 
 get_registration_information, \
 two_sided_nametags, \
@@ -66,14 +65,14 @@ while True:
 
     print("")
     if program_type.isdigit() and int(program_type) in range(1, 10):
-        if program_type in ['2', '3', '4']:
+        if program_type in ['2', '3', '4', '6']:
             executor = Executor(parser)
             executor.execute_action(int(program_type))
             sys.exit()
 
         new_creation = program_type == "1"
         create_registration_file_bool = program_type == "1"
-        create_schedule = program_type in ["1", "6"]
+        create_schedule = program_type == "1"
 
         create_scoresheets_second_rounds_bool = False # program_type == "2"
 
@@ -81,11 +80,11 @@ while True:
 
         create_only_registration_file = False # program_type == "4"
 
-        create_only_nametags = program_type in ["5"]
+        create_only_nametags = program_type == "5"
         reading_grouping_from_file_bool = program_type in ["5", "7", "8"]
 
-        create_only_schedule = program_type in ["6"]
-        only_one_competitor = program_type in ["8"]
+        create_only_schedule = False # program_type in ["6"]
+        only_one_competitor = program_type == "8"
         if program_type == "9":
             print("Quitting programm.")
             sys.exit()
@@ -234,114 +233,8 @@ elif reading_grouping_from_file_bool:
         create_only_nametags, competition_name, competition_name_stripped
     )
 
-# Create schedule from wca website information
-# Ran if program_type is 6
-elif create_only_schedule:
-    if parser_args.wca_registration:
-        wca_info = parser_args.wca_registration
-    else:
-        wca_info = get_confirmation(
-            "Used WCA registration for this competition? (y/n) "
-        )
-    if wca_info:
-        print("Using WCA website information.")
-
-    if not parser_args.use_access_token:
-        wca_password, wca_mail, competition_name, competition_name_stripped = apis.wca_registration(
-            True, parser_args
-        )
-    else:
-        competition_name, competition_name_stripped = apis.wca_registration(
-            True, parser_args
-        )
-    two_sided_nametags = False
-
-    file_name, grouping_file_name = apis.competition_information_fetch(
-        wca_info, False, two_sided_nametags, new_creation, parser_args
-    )
-    if not parser_args.use_access_token:
-        competition_wcif_file = apis.get_wca_info(
-            competition_name, competition_name_stripped, wca_password, wca_mail
-        )
-    else:
-        competition_wcif_file = apis.get_wca_info(
-            competition_name, competition_name_stripped, access_token
-        )
-
-# Create scoresheets for seconds rounds by using cubecomps.com information
-# Ran if program_type is 2
-elif create_scoresheets_second_rounds_bool:
-    use_cubecomps_ids = True
-    if parser_args.cubecomps:
-        cubecomps_id = parser_args.cubecomps
-    else:
-        cubecomps_id = input("Link to previous round: ")
-    cubecomps_api, competitors, event_round_name, advancing_competitors_next_round, competition_name, competition_name_stripped = apis.get_round_information_from_cubecomps(
-        cubecomps_id
-    )
-
-    event_2 = event_round_name.split(" - ")[0].replace(" Cube", "")
-    event_2 = list(EVENT_DICT.keys())[list(EVENT_DICT.values()).index(event_2)]
-
-    current_round_number = (
-        event_round_name.split(" - ")[1]
-        .replace("Round", "")
-        .replace("Combined", "Round")
-        .replace("Final", "")
-        .replace("First", "-r1")
-        .replace("Second", "-r2")
-        .replace("Semi", "-r3")
-        .replace(" ", "")[-1:]
-    )
-    if current_round_number.isdigit():
-        round_number = int(current_round_number) + 1
-    else:
-        print("Please open next round before using script. Script aborted.")
-        sys.exit()
-
-    next_round_name = "{} -{} {}".format(
-        event_round_name.split(" - ")[0].replace(" Cube", ""),
-        event_round_name.split(" - ")[1]
-        .replace("First", "")
-        .replace("Second", "")
-        .replace("Semi", "")
-        .replace("Combined ", " Round"),
-        str(round_number),
-    )
-    event_round_name = next_round_name.replace(" 4", "")
-
-    if not parser_args.use_access_token:
-        wca_password, wca_mail = apis.wca_registration(new_creation, parser_args)
-
-    if parser_args.wca_registration or not parser_args.no_wca_registration:
-        wca_info = parser_args.wca_registration
-    else:
-        wca_info = get_confirmation(
-            "Used WCA registration for this competition? (y/n) "
-        )
-    if wca_info:
-        print("Using WCA website information.")
-    if parser_args.scrambler_signature:
-        scrambler_signature = parser_args.scrambler_signature
-    else:
-        scrambler_signature = get_confirmation(
-            "Add scrambler signature field to scorecards? (y/n)"
-        )
-    file_name, grouping_file_name = apis.competition_information_fetch(
-        wca_info, False, False, new_creation, parser_args
-    )
-
-    if not parser_args.use_access_token:
-        competition_wcif_file = apis.get_wca_info(
-            competition_name, competition_name_stripped, wca_password, wca_mail
-        )
-    else:
-        competition_wcif_file = apis.get_wca_info(
-            competition_name, competition_name_stripped, access_token
-        )
-
 # Get all information from wca competition (using WCIF) and collection information from WCA database export
-# Ran if program_type is 1, 5, 6, 7 or 8 
+# Ran if program_type is 1, 5, 7 or 8 
 # Ran always now! cause 3 (blanks) already caught
 if get_registration_information:
     # Extract data from WCIF file
@@ -468,7 +361,7 @@ if read_only_registration_file:
     )
 
 ### Create schedule (if exists on WCA website)
-# Ran if (1 or 6) and something happens, full_schedule comes back from analysis.get_schedule_from_wcif(wca_json)
+# Ran if 1 and something happens, full_schedule comes back from analysis.get_schedule_from_wcif(wca_json)
 if create_schedule and full_schedule:
     full_schedule = sorted(
         sorted(full_schedule, key=lambda x: x["event_name"]),
@@ -522,21 +415,6 @@ if create_registration_file_bool:
 
     if create_only_registration_file:
         sys.exit()
-
-### Create scoresheets for consecutive rounds and exit script
-# Ran if program_type is 2
-if create_scoresheets_second_rounds_bool:
-    print("Creating scoresheets for {} ...".format(event_round_name))
-    pdf_files.create_scoresheets_second_rounds(
-        competition_name,
-        competitor_information,
-        advancing_competitors_next_round,
-        event_round_name,
-        event_info,
-        event_2,
-        next_round_name,
-        scrambler_signature,
-    )
 
 ### Create new string for grouping and add name + DOB
 # Ran if I dont fucking know
