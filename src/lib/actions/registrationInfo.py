@@ -15,11 +15,8 @@ competitors_api_local = []
 scoresheet_competitor_name_local = ''
 
 def printRegistration(parser_args):
-    wca_info = get_confirmation(
-        "Used WCA registration for this competition? (y/n) "
-    )
-    if wca_info:
-        print("Using WCA registration information.")
+    print("Using WCA registration information.")
+
     if not parser_args.use_access_token:
         wca_password, wca_mail, competition_name, competition_name_stripped = apis.wca_registration(
             True, parser_args
@@ -30,7 +27,7 @@ def printRegistration(parser_args):
         )
 
     file_name, grouping_file_name = apis.competition_information_fetch(
-        wca_info,
+        True,
         False,
         False,
         True,
@@ -77,27 +74,26 @@ def printRegistration(parser_args):
     )
 
     # Evaluate collected information
-    if wca_info:
-        competitor_information = competitor_information_wca
+    competitor_information = competitor_information_wca
 
-        wca_ids, registration_list_wca = analysis.prepare_registration_for_competitors(
-            competitor_information, event_list_wca, len(event_list_wca)
-        )
+    wca_ids, registration_list_wca = analysis.prepare_registration_for_competitors(
+        competitor_information, event_list_wca, len(event_list_wca)
+    )
 
-        if not registration_list_wca:
-            print("")
-            print(
-                "ERROR!! WCA registration not used for this competition. Please select registration file for import. Script aborted."
-            )
-            sys.exit()
-        registration_list_wca = sorted(
-            sorted(registration_list_wca, key=lambda x: x[1]),
-            key=lambda x: x[1].split()[-1],
+    if not registration_list_wca:
+        print("")
+        print(
+            "ERROR!! WCA registration not used for this competition. Please select registration file for import. Script aborted."
         )
+        return
+    registration_list_wca = sorted(
+        sorted(registration_list_wca, key=lambda x: x[1]),
+        key=lambda x: x[1].split()[-1],
+    )
 
-        analysis.column_ids, event_list = grouping_scrambling.update_column_ids(
-            event_list_wca, analysis.column_ids
-        )
+    analysis.column_ids, event_list = grouping_scrambling.update_column_ids(
+        event_list_wca, analysis.column_ids
+    )
     if group_list:
         print("WCA information sucessfully imported.")
     else:
@@ -125,8 +121,7 @@ def printRegistration(parser_args):
                 "Continue script. Please be reminded, that there is a high possibility of not finding any scramblers!"
             )
 
-    if wca_info:
-        registration_list = registration_list_wca
+    registration_list = registration_list_wca
     
     ### end of always part ###
 
