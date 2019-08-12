@@ -21,9 +21,9 @@ parser = PreperationParser()
 parser_args = parser.parse_args()
 ### Collection of booleans and variables for various different options from this script
 # Most of these are used globally
-create_only_nametags, new_creation, reading_scrambling_list_from_file, create_scoresheets_second_rounds_bool, reading_grouping_from_file_bool, only_one_competitor, create_registration_file_bool, create_only_registration_file, read_only_registration_file, create_schedule, create_only_schedule, scrambler_signature, use_cubecomps_ids, create_scoresheets_second_rounds_bool, create_only_registration_file, create_only_schedule = (False for i in range(16))
+create_only_nametags, reading_scrambling_list_from_file, create_scoresheets_second_rounds_bool, reading_grouping_from_file_bool, only_one_competitor, create_only_registration_file, read_only_registration_file, create_only_schedule, scrambler_signature, use_cubecomps_ids, = (False for i in range(10))
 
-get_registration_information, two_sided_nametags, valid_cubecomps_link, get_registration_information = (True for i in range(4))
+new_creation, create_registration_file_bool, create_schedule, get_registration_information, two_sided_nametags, valid_cubecomps_link,  = (True for i in range(6))
 
 scoresheet_competitor_name, cubecomps_id, competitors = '', '', ''
 competitors_api, scrambler_list, result_string = [], [], []
@@ -51,18 +51,11 @@ while True:
 
     print("")
     if program_type.isdigit() and int(program_type) in range(1, 10):
-        if program_type in ['2', '3', '4', '5', '6']:
+        if program_type in ['1', '2', '3', '4', '5', '6', '7', '8']:
             executor = Executor(parser)
             executor.execute_action(int(program_type))
             sys.exit()
 
-        new_creation = program_type == "1"
-        create_registration_file_bool = program_type == "1"
-        create_schedule = program_type == "1"
-
-        reading_grouping_from_file_bool = program_type in ["7", "8"]
-
-        only_one_competitor = program_type == "8"
         if program_type == "9":
             print("Quitting programm.")
             sys.exit()

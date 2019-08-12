@@ -16,7 +16,7 @@ def get_wca_competitor(wca_id: str) -> dict:
         raise API_ERROR(
             "get_wca_competitor failed with error code {}".format(response.status_code)
         )
-    competitor_info = response.json(wca_id)
+    competitor_info = response.json()
     return competitor_info
 
 

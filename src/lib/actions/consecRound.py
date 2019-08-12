@@ -42,7 +42,7 @@ def printConsecSheets(parser_args):
         round_number = int(current_round_number) + 1
     else:
         print("Please open next round before using script. Script aborted.")
-        sys.exit()
+        return
 
     next_round_name = "{} -{} {}".format(
         event_round_name.split(" - ")[0].replace(" Cube", ""),
@@ -124,7 +124,7 @@ def printConsecSheets(parser_args):
             print(
                 "ERROR!! WCA registration not used for this competition. Please select registration file for import. Script aborted."
             )
-            sys.exit()
+            return
         registration_list_wca = sorted(
             sorted(registration_list_wca, key=lambda x: x[1]),
             key=lambda x: x[1].split()[-1],
@@ -142,7 +142,7 @@ def printConsecSheets(parser_args):
         print(
             'Please make sure to enter all necessary information in the "Manage events" tab on the WCA competition page.'
         )
-        sys.exit()
+        return
     if minimal_scramble_set_count == 1:
         continue_script = get_confirmation(
             "It looks like all your events only have one set of scrambles. Do you still want to continue running this script? (y/n)"
@@ -153,7 +153,7 @@ def printConsecSheets(parser_args):
                 "Please edit the group information in the competition event tab  before running this script again."
             )
             print("Script aborted.")
-            sys.exit()
+            return
         else:
             print(
                 "Continue script. Please be reminded, that there is a high possibility of not finding any scramblers!"
@@ -187,7 +187,7 @@ def printConsecSheets(parser_args):
             print(
                 "ERROR!! Number of events from WCA Website does not match number of events in registration data. Please use correct registration file. Abort script."
             )
-            sys.exit()
+            return
 
     if wca_info:
         registration_list = registration_list_wca
