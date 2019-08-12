@@ -5,16 +5,12 @@ F: create_scoresheets_second_rounds_bool, new_creation, create_registration_file
 import apis
 import json
 from lib.utils import user_input
-#from lib.api import *
 import information_analysis as analysis
 import grouping_scrambling_functions as grouping_scrambling
 import pdf_file_generation as pdf_files
-#from modules import *
 from constants import EVENT_DICT
-#from lib.utils import *
 
 def printSchedule(parser_args):
-    print("Yo welcome to schedule")
     competitors_local = ''
     competitors_api_local = [] 
     scoresheet_competitor_name_local = ''
