@@ -97,7 +97,6 @@ def wca_api(request_url, email="", password="", access_token=""):
             "scope": "public manage_competitions",
         }
         response = requests.post(grant_url, data=wca_headers)
-        print(wca_headers)
         if not response.ok:
             l.error("No connection to the WCA")
             raise API_ERROR(
