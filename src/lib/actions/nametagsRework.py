@@ -6,7 +6,6 @@ import json, os
 
 def printOnlyNametags():
     # TODO: Add parser_arg for local directory, and search in it for *registration.csv to use instead
-    # TODO: Add cubecomps support back, use IDs from cubecomps over the ones from WCA if they differ, cause scoretaking
 
     (password, email) = get_password_mail()
     upcomingJson = get_upcoming_wca_competitions(password, email)
@@ -34,3 +33,31 @@ def printOnlyNametags():
     print(
         "Saved registration information from WCA website, extracting data now and collect relevant information..."
     )
+
+    people = getRegistrationDataFromWCIF(competition_wcif_file)
+
+    print(people)
+
+def getRegistrationDataFromWCIF(competition_wcif_file):
+    wca_json = json.loads(competition_wcif_file)
+
+    people_json = wca_json['persons']
+
+    ret = []
+
+    for person in people_json:
+        if person['registration']['status'] != 'accepted':
+            continue
+    
+        curr = {}
+        curr['name'] = person['name']
+        curr['wcaId'] = person['wcaId']
+        curr['nation'] = person['countryIso2']
+        curr['gender'] = person['gender']
+        curr['birthdate'] = person['birthdate']
+        curr['eventIds'] = person['registration']['eventIds'] 
+        curr['guests'] = person['registration']['guests']
+
+        ret.append(curr)
+    
+    return ret
