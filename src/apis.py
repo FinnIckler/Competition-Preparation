@@ -192,7 +192,6 @@ def wca_api(request_url, *args):
         wca_mail = args[0]
         wca_headers = {'grant_type':'password', 'username':wca_mail, 'password':wca_password, 'scope':'public manage_competitions'}
         wca_request_token = requests.post(grant_url, data=wca_headers)
-        print(wca_headers)
         try:
             wca_access_token = json.loads(wca_request_token.text)['access_token']
             wca_refresh_token = json.loads(wca_request_token.text)['refresh_token']
@@ -346,3 +345,7 @@ def create_competition_folder(competition_name):
     competition_name_stripped = competition_name.replace(' ', '')
     if not os.path.exists(competition_name_stripped):
         os.makedirs(competition_name_stripped)
+
+
+    lib.api.wca     {'grant_type': 'password', 'username': 'teddyni', 'password': 'lschmidtchen@worldcubeassociation.org', 'scope': 'public manage_competitions'}
+    apis            {'grant_type': 'password', 'username': 'lschmidtchen@worldcubeassociation.org', 'password': 'teddyni', 'scope': 'public manage_competitions'}
