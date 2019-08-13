@@ -38,7 +38,9 @@ while True:
         if int(program_type) in range(1, 9):
             executor = Executor(parser)
             executor.execute_action(int(program_type))
-
+        if int(program_type) == 420:
+            from lib.actions import nametagsRework
+            nametagsRework.printOnlyNametags()
         print("Quitting programm.")
         sys.exit()
 

@@ -1,6 +1,10 @@
 from lib.logging import Logger
 from datetime import datetime
-import requests
+import requests, os, sys
+from ..api_error import API_ERROR
+
+l = Logger()
+
 
 # Error handling for WCA website login errors
 def error_handling_wcif(competition_name, competition_page):
@@ -46,7 +50,6 @@ def get_upcoming_wca_competitions(password="", email="", access_token=""):
 
     return competition_wcif_info.json()
 
-
 def get_wca_info(
     competition_name, competition_name_stripped, email="", password="", access_token=""
 ):
@@ -75,7 +78,7 @@ def get_wca_competition(competition_name):
     competition_info = ""
     response = requests.get(url)
     if not response.ok:
-        Logger.error("No connection to the WCA")
+        l.error("No connection to the WCA")
         raise API_ERROR(
             "wca_api failed with error code {}".format(response.status_code)
         )
@@ -94,8 +97,9 @@ def wca_api(request_url, email="", password="", access_token=""):
             "scope": "public manage_competitions",
         }
         response = requests.post(grant_url, data=wca_headers)
+        print(wca_headers)
         if not response.ok:
-            Logger.error("No connection to the WCA")
+            l.error("No connection to the WCA")
             raise API_ERROR(
                 "wca_api failed with error code {}".format(response.status_code)
             )
