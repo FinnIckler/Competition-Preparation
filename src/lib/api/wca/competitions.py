@@ -1,6 +1,8 @@
 from lib.logging import Logger
+from datetime import datetime
+import requests
 
-### Error handling for WCA website login errors
+# Error handling for WCA website login errors
 def error_handling_wcif(competition_name, competition_page):
     competition_name_stripped = competition_name.replace(" ", "")
     if "Not logged in" in competition_page:
@@ -32,7 +34,7 @@ def error_handling_wcif(competition_name, competition_page):
 
 # Get upcoming competitions of user
 def get_upcoming_wca_competitions(password="", email="", access_token=""):
-    start_date = str(datetime.datetime.today()).split()[0]
+    start_date = str(datetime.today()).split()[0]
     url = "https://www.worldcubeassociation.org/api/v0/competitions?managed_by_me=true&start={}".format(
         start_date
     )
@@ -42,7 +44,7 @@ def get_upcoming_wca_competitions(password="", email="", access_token=""):
     else:
         competition_wcif_info = wca_api(url, access_token)
 
-    return competition_wcif_info.text
+    return competition_wcif_info.json()
 
 
 def get_wca_info(
@@ -102,7 +104,7 @@ def wca_api(request_url, email="", password="", access_token=""):
         wca_refresh_token = data["refresh_token"]
         with open(".secret", "w") as secret:
             print(
-                str(datetime.datetime.now())
+                str(datetime.now())
                 + " token:"
                 + wca_access_token
                 + " refresh_token:"
