@@ -48,10 +48,10 @@ class TestAPICompetitions(unittest.TestCase):
             content_type="application/json",
         )
         self.assertEqual(
-            get_upcoming_wca_competitions(password="hunter7", email="Finn@test.com"), []
+            get_upcoming_wca_competitions(password="hunter2", email="Finn@test.com"), []
         )
         self.assertEqual(
-            get_upcoming_wca_competitions(password="hunter8", email="Leon@test.com"),
+            get_upcoming_wca_competitions(password="hunter3", email="Leon@test.com"),
             SAMPLE_COMPETITIONS,
         )
 
