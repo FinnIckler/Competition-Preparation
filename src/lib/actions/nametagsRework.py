@@ -3,6 +3,7 @@ from lib.utils.user_input import get_password_mail, select_upcoming_competition,
 import json, os
 
 #import apis
+#Changed to make comments about the code
 
 def printOnlyNametags():
     # TODO: Add parser_arg for local directory, and search in it for *registration.csv to use instead
