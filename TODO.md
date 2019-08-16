@@ -19,3 +19,5 @@
     7. Move 7
     8. Move 8
 8. Move all the print statement to a logging solution [Probably standard logging] [IN PROGRESS]
+
+99. requirements.txt probably super outdated eventually

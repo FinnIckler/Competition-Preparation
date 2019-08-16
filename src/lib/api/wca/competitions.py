@@ -5,7 +5,6 @@ from ..api_error import API_ERROR
 
 l = Logger()
 
-
 # Error handling for WCA website login errors
 def error_handling_wcif(competition_name, competition_page):
     competition_name_stripped = competition_name.replace(" ", "")
@@ -53,7 +52,7 @@ def get_upcoming_wca_competitions(password="", email="", access_token=""):
 def get_wcif_for_comp(
     competition_name, competition_name_stripped, email="", password="", access_token=""
 ):
-    print("Fetching information from WCA competition website...")
+    print("\nDownloading Competiton Data... \n")
     url = "https://www.worldcubeassociation.org/api/v0/competitions/{}/wcif".format(
         competition_name_stripped
     )

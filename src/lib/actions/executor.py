@@ -28,8 +28,8 @@ class Executor:
             printSchedule(self.parser.parse_args())
             
         if mode == Modes.NAMETAGS:
-            from .nametags import printOnlyNametags
-            printOnlyNametags(self.parser.parse_args())
+            from .nametags import print_only_nametags
+            print_only_nametags()
 
         if mode == Modes.SCORESHEETS_GROUPING_ALL:
             from .scoreSheets import fromGroupingFileAll

@@ -4,45 +4,39 @@ from constants import EVENT_DICT
 
 # Input: Entire WCIF File for a competition
 # Output: List of one dict per person, containing the attributes
-# Name, Nationality, DEL?. ORG?, WCA_ID, NumComps, 3x3A, 3x3S, BestEvent, BestEventWR, BestEventA, BestEventS
+# Name, Nationality, DEL?. ORG?, WCA_ID, NumComps, { 3x3A, 3x3S }, { BestEventName, BestEventWorldRank, BestEventType, BestEventResult }
 def get_nametag_data(competition_wcif_file):
     wca_json = json.loads(competition_wcif_file)
-
-    people_json = wca_json['persons']
-
+    persons_json = wca_json['persons']
     ret = []
 
-    for person in people_json:
+    for person in persons_json:
         if person['registration']['status'] != 'accepted':
             continue
         
-        DEL = 'delegate' in person['roles']
-        ORG = 'organizer' in person['roles'] 
-
         curr = {
             'name' : person['name'],
             'nation' : pycountry.countries.get(alpha_2=person['countryIso2']).name,
-            'delegate' : DEL,
-            'organizer' : ORG,
-            'wcaId' : person['wcaId'], # 'null' if newcomer
+            'delegate' : 'delegate' in person['roles'],
+            'organizer' : 'organizer' in person['roles'] ,
+            'wcaId' : person['wcaId'], # None if newcomer
             'gender' : person['gender']
         }
         
         # not a newcomer
-        if curr['wcaId'] != 'null':
-            wcif_for_curr = get_wca_competitor(curr['wcaId'])
+        if person['wcaId'] != None:
+            wcif_for_person = get_wca_competitor(person['wcaId'])
+            curr['numComps'] = wcif_for_person['competition_count']
 
-            curr['numComps'] = wcif_for_curr['competition_count']
-
+            _3x3 = {
+                'single' : -1, 
+                'average' : -1
+            }
             best = {
                 'ranking' : 10000000,
                 'eventName' : '',
                 'type' : '', # single | average
-                'result' : -1 # in milliseconds, moves for fmc, weird for mbld
-            }
-            _3x3 = {
-                'single' : -1, 
-                'average' : -1
+                'result' : -1
             }
 
             for pb in person['personalBests']:

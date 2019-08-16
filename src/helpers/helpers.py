@@ -1,3 +1,5 @@
+# Probably remove whole file in the end, but things cleaner into lib.utils
+
 ### Multiple helper functions for various things
 
 from modules import *
@@ -16,15 +18,18 @@ def update_scrambler_list(scrambler_list):
         scrambler_list[person][1] = int(scrambler_list[person][1])
     return scrambler_list
 
-# Return minutes and seconds for given amount of seconds
+# deprecated!  no clear equicalent in utils/WCA_result_to_string though
 def format_minutes_and_seconds(time_string):
     minutes, seconds = divmod(time_string, 60)
     minutes = str(int(minutes))
     seconds = enlarge_string(str(int(seconds)), '0', 2)
     return (minutes, seconds)
 
-# Add whitespace/other characters to string
+# deprecated!
 def enlarge_string(input_string, add_string, string_length):
+    from src.lib.utils.WCA_result_to_string import shrink_or_enlarge_string
+    return shrink_or_enlarge_string(input_string, string_length=string_length)
+
     while len(input_string) < string_length:
         input_string = ''.join([add_string, input_string])
     return input_string
@@ -41,8 +46,11 @@ def create_two_strings_out_of_one(input_string, font_size, width):
     input_string_string2 = input_string.replace(input_string_string1, '')
     return (input_string_string1, input_string_string2)
 
-# Format results which are over 60 seconds
+# deprecated! Remove once we're done
 def format_result(time):
+    from src.lib.utils.WCA_result_to_string import format_result_OVER_10MIN
+    return format_result_OVER_10MIN(time)
+
     minutes = int(time / 60)
     seconds = int(time % 60)
     ms = int(round((time % 60) % 1, 2) * 100)

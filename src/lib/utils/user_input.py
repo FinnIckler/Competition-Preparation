@@ -40,10 +40,10 @@ def select_upcoming_competition(jsonResponse):
         print("No upcoming compeititons!")
         return
     
-    print('Please select competition (by number) or enter competition name:')
+    print('Please select competition (by id) or enter competition name:')
     counter = 1
     for competition in jsonResponse:
-        print('{}. {}'.format(counter, competition['name']))
+        print('    {}. {}'.format(counter, competition['name']))
         counter += 1
     
     valid_string_entered = False
@@ -64,6 +64,4 @@ def select_upcoming_competition(jsonResponse):
             except KeyError:
                 print('Competition {} not found on WCA website, please enter valid competition name.'.format(competition_name))
     
-    competition_name_stripped = competition_name.replace(' ', '')
-
-    return (competition_name, competition_name_stripped)
+    return competition_name
