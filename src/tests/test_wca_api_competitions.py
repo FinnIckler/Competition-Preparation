@@ -56,7 +56,7 @@ class TestAPICompetitions(unittest.TestCase):
         )
 
     @responses.activate
-    def test_get_wca_info(self):
+    def test_get_wcif_for_comp(self):
         pass
 
     @responses.activate

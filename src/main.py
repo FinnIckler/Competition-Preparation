@@ -34,13 +34,13 @@ while True:
         program_type = input("")
 
     print("")
-    if program_type.isdigit() and int(program_type):
+    if int(program_type):
         if int(program_type) in range(1, 9):
             executor = Executor(parser)
             executor.execute_action(int(program_type))
         if int(program_type) == 420:
             from lib.actions import nametagsRework
-            nametagsRework.printOnlyNametags()
+            nametagsRework.print_only_nametags()
         print("Quitting programm.")
         sys.exit()
 

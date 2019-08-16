@@ -12,9 +12,15 @@ def get_confirmation(message):
 
     return confirmation.upper() == 'Y'
 
-def get_password_mail(): # TODO: check if mail already in parser_args
+def get_password_mail():
     import getpass
+    from main import parser_args
+
     while True:
+        if parser_args.mail:
+            email = parser_args.mail
+            break
+    
         email = input('Please enter WCA Mail: \n')
         # Validation if correct mail address was entered
         if '@' not in email:
@@ -24,6 +30,7 @@ def get_password_mail(): # TODO: check if mail already in parser_args
                 print('Please enter valid email address.')
         else:
             break
+        
     password = getpass.getpass('Your WCA password: \n')
 
     return (password, email)

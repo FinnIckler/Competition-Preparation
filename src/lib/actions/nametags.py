@@ -1,4 +1,4 @@
-from lib.api.wca import get_upcoming_wca_competitions, get_wca_info
+from lib.api.wca import get_upcoming_wca_competitions, get_wcif_for_comp
 from lib.utils.user_input import get_password_mail, select_upcoming_competition, get_confirmation
 import json, os
 
@@ -27,7 +27,7 @@ def printOnlyNametags():
             )
         )
 
-    competition_wcif_file = get_wca_info(
+    competition_wcif_file = get_wcif_for_comp(
         competition_name, competition_name_stripped, email=email, password=password
     )
 

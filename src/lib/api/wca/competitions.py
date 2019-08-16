@@ -50,7 +50,7 @@ def get_upcoming_wca_competitions(password="", email="", access_token=""):
 
     return competition_wcif_info.json()
 
-def get_wca_info(
+def get_wcif_for_comp(
     competition_name, competition_name_stripped, email="", password="", access_token=""
 ):
     print("Fetching information from WCA competition website...")

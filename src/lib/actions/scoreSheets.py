@@ -22,7 +22,6 @@ T: reading_grouping_from_file_bool, two_sided_nametags, valid_cubecomps_link, ge
 F: create_only_nametags, new_creation, reading_scrambling_list_from_file, create_scoresheets_second_rounds_bool, only_one_competitor, create_registration_file_bool, create_only_registration_file, read_only_registration_file, create_schedule, create_only_schedule, scrambler_signature, use_cubecomps_ids = False
 '''
 def fromGroupingFileAll(parser_args):
-    print("hey there")
     competitors_local = ''
     competitors_api_local = [] 
     scoresheet_competitor_name_local = ''
@@ -210,7 +209,6 @@ T: only_one_competitor, reading_grouping_from_file_bool, two_sided_nametags, val
 F: create_only_nametags, new_creation, reading_scrambling_list_from_file, create_scoresheets_second_rounds_bool, create_registration_file_bool, create_only_registration_file, read_only_registration_file, create_schedule, create_only_schedule, scrambler_signature, use_cubecomps_ids = False
 '''
 def fromGroupingFileOne(parser_args):
-    print("hey there2")
     competitors_local = ''
     competitors_api_local = [] 
     scoresheet_competitor_name_local = ''
