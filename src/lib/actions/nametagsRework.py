@@ -1,33 +1,30 @@
-from lib.api.wca import get_upcoming_wca_competitions, get_wca_info
+from lib.api.wca import get_upcoming_wca_competitions, get_wcif_for_comp
 from lib.utils.user_input import get_password_mail, select_upcoming_competition, get_confirmation
-import json, os
+from lib.utils.directory_handling import check_for_local_csv_files
+from lib.utils.data_from_WCIF import get_nametag_data
+from lib.pdf_generation.genNametags import gen_nametags
+import os
 
-#import apis
-#Changed to make comments about the code
-
-def printOnlyNametags():
-    # TODO: Add parser_arg for local directory, and search in it for *registration.csv to use instead
+def print_only_nametags():
+    # TODO: Check if access token already here, only ask for mail etc if not
 
     (password, email) = get_password_mail()
-    upcomingJson = get_upcoming_wca_competitions(password, email)
+    upcomingJson = get_upcoming_wca_competitions(email=email, password=password)
     upcomingComps = sorted(upcomingJson, key = lambda x : x['start_date'])
     (competition_name, competition_name_stripped) = select_upcoming_competition(upcomingComps)
 
+    two_sided_nametags = False
     if not os.path.exists(competition_name_stripped):
         os.makedirs(competition_name_stripped)
-
-    two_sided_nametags = get_confirmation(
-        "Create two-sided nametags? (grouping (and scrambling) information on the back) (y/n)"
-    )
-
-    if two_sided_nametags:
-        print(
-            "Using WCA registration and event information for competition {}.".format(
-                competition_name
+    else:
+        (reg_file, grp_file, scr_file) = check_for_local_csv_files(competition_name_stripped)
+        if grp_file != None and scr_file != None:
+            two_sided_nametags = get_confirmation(
+                "Create two-sided nametags? (grouping and scrambling information on the back) (y/n)"
             )
-        )
 
-    competition_wcif_file = get_wca_info(
+
+    competition_wcif_file = get_wcif_for_comp(
         competition_name, competition_name_stripped, email=email, password=password
     )
 
@@ -35,30 +32,11 @@ def printOnlyNametags():
         "Saved registration information from WCA website, extracting data now and collect relevant information..."
     )
 
-    people = getRegistrationDataFromWCIF(competition_wcif_file)
+    people = get_nametag_data(competition_wcif_file)
 
-    print(people)
-
-def getRegistrationDataFromWCIF(competition_wcif_file):
-    wca_json = json.loads(competition_wcif_file)
-
-    people_json = wca_json['persons']
-
-    ret = []
-
-    for person in people_json:
-        if person['registration']['status'] != 'accepted':
-            continue
+    if two_sided_nametags: # extend people with their assignments according to .csv s
+        # TODO
+        pass
     
-        curr = {}
-        curr['name'] = person['name']
-        curr['wcaId'] = person['wcaId']
-        curr['nation'] = person['countryIso2']
-        curr['gender'] = person['gender']
-        curr['birthdate'] = person['birthdate']
-        curr['eventIds'] = person['registration']['eventIds'] 
-        curr['guests'] = person['registration']['guests']
-
-        ret.append(curr)
+    gen_nametags(competition_name, people)
     
-    return ret
