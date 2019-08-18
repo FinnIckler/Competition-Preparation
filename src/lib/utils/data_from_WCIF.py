@@ -1,16 +1,23 @@
 import json, pycountry
-from lib.api.wca.persons import get_wca_competitor
+from lib.api.wca.persons import get_wca_competitors
 from constants import EVENT_DICT
 
 # Input: Entire WCIF File for a competition
 # Output: List of one dict per person, containing the attributes
 # Name, Nationality, DEL?. ORG?, WCA_ID, NumComps, { 3x3A, 3x3S }, { BestEventName, BestEventWorldRank, BestEventType, BestEventResult }
 def get_nametag_data(competition_wcif_file):
-    wca_json = json.loads(competition_wcif_file)
-    persons_json = wca_json['persons']
+    wcif_json = json.loads(competition_wcif_file)
+    persons_wcif = wcif_json['persons']
     ret = []
 
-    for person in persons_json:
+    WCA_IDs = []
+    for person in persons_wcif:
+        if person['wcaId']:
+            WCA_IDs.append(person['wcaId'])
+    
+    persons_wca_api = get_wca_competitors(WCA_IDs)
+
+    for person in persons_wcif:
         if person['registration']['status'] != 'accepted':
             continue
         
@@ -25,8 +32,13 @@ def get_nametag_data(competition_wcif_file):
         
         # not a newcomer
         if person['wcaId'] != None:
-            wcif_for_person = get_wca_competitor(person['wcaId'])
-            curr['numComps'] = wcif_for_person['competition_count']
+            person_api_data = None
+            for p in persons_wca_api:
+                if person['wcaId'] == p['person']['wca_id']:
+                    person_api_data = p
+                    break
+            
+            curr['numComps'] = person_api_data['competition_count']
 
             _3x3 = {
                 'single' : -1, 
@@ -57,5 +69,4 @@ def get_nametag_data(competition_wcif_file):
 
         ret.append(curr)
     
-    print("ret")
     return ret

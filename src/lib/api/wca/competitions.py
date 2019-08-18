@@ -52,7 +52,6 @@ def get_upcoming_wca_competitions(password="", email="", access_token=""):
 def get_wcif_for_comp(
     competition_name, competition_name_stripped, email="", password="", access_token=""
 ):
-    print("\nDownloading Competiton Data... \n")
     url = "https://www.worldcubeassociation.org/api/v0/competitions/{}/wcif".format(
         competition_name_stripped
     )

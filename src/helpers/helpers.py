@@ -48,8 +48,8 @@ def create_two_strings_out_of_one(input_string, font_size, width):
 
 # deprecated! Remove once we're done
 def format_result(time):
-    from src.lib.utils.WCA_result_to_string import format_result_OVER_10MIN
-    return format_result_OVER_10MIN(time)
+    from src.lib.utils.WCA_result_to_string import _format_result_OVER_10MIN
+    return _format_result_OVER_10MIN(time)
 
     minutes = int(time / 60)
     seconds = int(time % 60)

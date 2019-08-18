@@ -2,7 +2,7 @@ import labels, os
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase.pdfmetrics import registerFont
 from reportlab.lib import colors
-from lib.pdf_generation.helpers import add_text_field, NAMETAG_FONT_PATH
+from lib.utils.pdf import add_text_field, NAMETAG_FONT_PATH
 from lib.utils.WCA_result_to_string import format_result
 
 # FEMALE_POLICE_OFFICER = '\u1F46E\u200D\u2640\uFE0F'
@@ -10,6 +10,7 @@ from lib.utils.WCA_result_to_string import format_result
 # FEMALE_CONSTRUCTION_WORKER = '\u1F477\u200D\u2640\uFE0F'
 # MALE_CONSTRUCTION_WORKER = '\u1F477'
 FOOTER_HEIGHT = 7
+FOOTER_SIDE_MARGIN = 10
 
 def gen_nametags(competition_name, persons):
     ### Initialize font
@@ -25,7 +26,7 @@ def gen_nametags(competition_name, persons):
         person = obj[1]
 
         # Write competition name, competitor name and nation
-        add_text_field(label, competition_name, width / 2.0, height - 25, max_width=width-5, max_font_size=50)
+        add_text_field(label, competition_name, width / 2.0, height - 25, max_width=width-5, max_font_size=50, font="Helvetica")
         
         name = person['name']
         # Add delegate / organizer color
@@ -50,7 +51,7 @@ def gen_nametags(competition_name, persons):
             if person['_3x3']['single'] != -1 and person['_3x3']['average'] != -1:
                 rubiks_text = "3x3 PBs: {} S / {} A".format(format_result(person['_3x3']['single']), format_result(person['_3x3']['average']))
                 if (person['best']['eventName'] != '3x3x3'):
-                    add_text_field(label, rubiks_text, 10, FOOTER_HEIGHT + 10, font_size=10, color=colors.blue, position="start")
+                    add_text_field(label, rubiks_text, FOOTER_SIDE_MARGIN, FOOTER_HEIGHT + 10, font_size=10, color=colors.blue, position="start")
 
             best_text = "Best World Ranking: {} ({} {} of {})".format(
                 person['best']['ranking'],
@@ -58,10 +59,10 @@ def gen_nametags(competition_name, persons):
                 person['best']['type'],
                 format_result(person['best']['result'], person['best']['eventName'])
             )
-            add_text_field(label, best_text, 10, FOOTER_HEIGHT, max_width=width-20, max_font_size=10, color=colors.blue, position="start")
+            add_text_field(label, best_text, FOOTER_SIDE_MARGIN, FOOTER_HEIGHT, max_width=width-20, max_font_size=10, color=colors.blue, position="start")
 
             comp_count = "Competition # " + str(person['numComps'] + 1)
-            add_text_field(label, comp_count, width - 10, FOOTER_HEIGHT + 10, font_size=10, color=colors.blue, position="end")
+            add_text_field(label, comp_count, width - FOOTER_SIDE_MARGIN, FOOTER_HEIGHT + 10, font_size=10, color=colors.blue, position="end")
 
     # Create the sheet and add labels
     sheet = labels.Sheet(specs, create_nametag, border=True)
