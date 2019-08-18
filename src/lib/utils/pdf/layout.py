@@ -2,7 +2,7 @@ from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.graphics import shapes
 from reportlab.lib import colors
 
-NAMETAG_FONT_PATH =  __file__.replace("lib/pdf_generation/helpers.py", '') + "data/Trebuchet.ttf"
+NAMETAG_FONT_PATH =  __file__.replace("lib/utils/pdf/layout.py", '') + "data/Trebuchet.ttf"
 
 # Add String text to label at (width, height). Font_size gets adjusted to max_width
 # You can add a max_font_size where the calculation starts

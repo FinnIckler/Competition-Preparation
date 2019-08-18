@@ -31,19 +31,19 @@ while True:
         )
         print("Please select: ")
         for mode in Modes:
-            print("{}. {}".format(mode.value, MODE_HELP[mode.value]))
+            print("  {}. {}".format(mode.value, MODE_HELP[mode.value]))
         program_type = input("")
 
         print("")
-        #print("we 1")
-        if int(program_type):
-            #print("programm type is " + str(program_type))
+        # TODO: isdigit() didnt fix the bug
+        if program_type.isdigit():
+            program_type = int(program_type)
             #print("we 2")
-            if int(program_type) in range(1, 9):
+            if program_type in range(1, 9):
                 #print("we 3")
                 executor = Executor(parser)
                 #print("we 4")
-                executor.execute_action(int(program_type))
+                executor.execute_action(program_type)
                 #print("we 5")
             else:
                 print("Quitting programm.")
