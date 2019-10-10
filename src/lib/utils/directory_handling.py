@@ -11,20 +11,20 @@ def check_for_local_csv_files(competition_name_stripped):
     ret = [None, None, None]
 
     for filepath in os.listdir(dir):
-        if reg_pattern.search(filepath) != None:
-            if (ret[0] != None):
+        if reg_pattern.search(filepath):
+            if ret[0]:
                 print("Multiple registration files found, using first one found.")
                 continue
             ret[0] = dir + filepath
         
-        if grp_pattern.search(filepath) != None:
-            if (ret[1] != None):
+        if grp_pattern.search(filepath):
+            if ret[1]:
                 print("Multiple grouping files found, using first one found.")
                 continue
             ret[1] = dir + filepath
         
-        if scr_pattern.search(filepath) != None:
-            if (ret[2] != None):
+        if scr_pattern.search(filepath):
+            if ret[2]:
                 print("Multiple scrambling files found, using first one found.")
                 continue
             ret[2] = dir + filepath
