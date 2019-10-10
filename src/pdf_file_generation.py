@@ -455,16 +455,16 @@ def write_schedule(label, width, height, information):
     
     # Add header of table
     header_font_size = 16
-    label.add(shapes.Rect(10,height-166,52, 26, fillColor=colors.white))
-    label.add(shapes.String(20, height-160, 'Start', fontSize=header_font_size, fontName='Arial'))
-    label.add(shapes.Rect(62,height-166,52, 26, fillColor=colors.white))
-    label.add(shapes.String(71, height-160, 'Stop', fontSize=header_font_size, fontName='Arial'))
-    label.add(shapes.Rect(112,height-166,160, 26, fillColor=colors.white))
-    label.add(shapes.String(192, height-160, 'Event', fontSize=header_font_size, textAnchor='middle', fontName='Arial'))
-    label.add(shapes.Rect(272,height-166,115, 26, fillColor=colors.white))
-    label.add(shapes.String(330, height-160, 'Timelimit', fontSize=header_font_size, textAnchor='middle', fontName='Arial'))
-    label.add(shapes.Rect(387,height-166,190, 26, fillColor=colors.white))
-    label.add(shapes.String(485, height-160, 'Format', fontSize=header_font_size, textAnchor='middle', fontName='Arial'))
+    label.add(shapes.Rect(10,height-164,52, 30, fillColor=colors.white))
+    label.add(shapes.String(20, height-158, 'Start', fontSize=header_font_size, fontName='Arial'))
+    label.add(shapes.Rect(62,height-164,52, 30, fillColor=colors.white))
+    label.add(shapes.String(71, height-158, 'Stop', fontSize=header_font_size, fontName='Arial'))
+    label.add(shapes.Rect(112,height-164,160, 30, fillColor=colors.white))
+    label.add(shapes.String(192, height-158, 'Event', fontSize=header_font_size, textAnchor='middle', fontName='Arial'))
+    label.add(shapes.Rect(272,height-164,115, 30, fillColor=colors.white))
+    label.add(shapes.String(330, height-158, 'Timelimit', fontSize=header_font_size, textAnchor='middle', fontName='Arial'))
+    label.add(shapes.Rect(387,height-164,190, 30, fillColor=colors.white))
+    label.add(shapes.String(485, height-158, 'Format', fontSize=header_font_size, textAnchor='middle', fontName='Arial'))
     
     # Add each event for the selected day
     height += 13
@@ -517,7 +517,7 @@ def write_schedule(label, width, height, information):
             event_name = event_name.replace('Round 2', 'Second Round')
                     
             event_font_size = 12
-            box_height = event_font_size + 4
+            box_height = event_font_size + 8
             set_box_height = 0
             if stringWidth(event_name, 'Arial', event_font_size) > 155 or stringWidth(round_format, 'Arial', event_font_size) > 190:
                 double_height = True
@@ -560,9 +560,9 @@ def write_schedule(label, width, height, information):
             label.add(shapes.String(330, height-190-set_box_height/2, limit, textAnchor='middle', fontSize=event_font_size, fontName='Arial'))
             
             if double_height:
-                height -= (event_font_size + 4) * 2
+                height -= (event_font_size + 8) * 2
             else:
-                height -= event_font_size + 4
+                height -= event_font_size + 8
 
 def write_scoresheets(label, width, height, information):
     name = information[0]
