@@ -1,4 +1,10 @@
-# Competition-Preparation
+# Competition-Preparation Redux
+
+This is the forked version of Linus Fresz' Competition Preparation Tool, 
+it maintains most of the functionality but doesn't give the users as much freedom 
+in the parameter, instead it chooses the most sensible ones.
+
+The codebase is also in the process of being modernized
 
 ## Content
 This script creats various things an organizer needs to have for a competition:
@@ -22,7 +28,7 @@ Make sure to add all event information in the 'Manage events' tab for your compe
 - `pip install -r requirements.txt`
 - `python3 src/main.py` or `python src/main.py`
 
-For further details and support, please contact Linus Frész, linuf95@gmail.com
+For further details and support, please contact Finn Ickler or Leon Schmidtchen.
 
 ## Argparse support
 ### Optional arguments
