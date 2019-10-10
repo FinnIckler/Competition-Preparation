@@ -1,4 +1,5 @@
 from constants import Modes
+import sys
 
 
 class Executor:
@@ -28,8 +29,8 @@ class Executor:
             printSchedule(self.parser.parse_args())
             
         if mode == Modes.NAMETAGS:
-            from .nametags import printOnlyNametags
-            printOnlyNametags(self.parser.parse_args())
+            from .nametags import print_only_nametags
+            print_only_nametags()
 
         if mode == Modes.SCORESHEETS_GROUPING_ALL:
             from .scoreSheets import fromGroupingFileAll
@@ -42,3 +43,5 @@ class Executor:
         if mode == Modes.PREPERATION:
             from .doEverything import operation1
             operation1(self.parser.parse_args())
+
+        sys.exit()

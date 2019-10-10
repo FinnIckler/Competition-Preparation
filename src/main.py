@@ -19,7 +19,8 @@ parser_args = parser.parse_args()
 # else:
 #    parser_args.use_access_token = False
 
-
+# TODO: weird bug where it never executes the action on the frist run, i.e. always user input twice. 
+# Am I stupid or something? See shitty attempt at debuging commented out
 ### Selection of script functions
 while True:
     if parser_args.option and int(parser_args.option) in range(1, 9):
@@ -30,19 +31,19 @@ while True:
         )
         print("Please select: ")
         for mode in Modes:
-            print("{}. {}".format(mode.value, MODE_HELP[mode.value]))
+            print("  {}. {}".format(mode.value, MODE_HELP[mode.value]))
         program_type = input("")
 
-    print("")
-    if program_type.isdigit() and int(program_type):
-        if int(program_type) in range(1, 9):
-            executor = Executor(parser)
-            executor.execute_action(int(program_type))
-        if int(program_type) == 420:
-            from lib.actions import nametagsRework
-            nametagsRework.printOnlyNametags()
-        print("Quitting programm.")
-        sys.exit()
+        print("")
+        # TODO: isdigit() didnt fix the bug
+        if program_type.isdigit():
+            program_type = int(program_type)
+            if program_type in range(1, 9):
+                executor = Executor(parser)
+                executor.execute_action(program_type)
+            else:
+                print("Quitting programm.")
+                sys.exit()
 
 
 # if access_token_found and not parser_args.use_access_token:
