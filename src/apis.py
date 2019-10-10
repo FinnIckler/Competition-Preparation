@@ -345,7 +345,3 @@ def create_competition_folder(competition_name):
     competition_name_stripped = competition_name.replace(' ', '')
     if not os.path.exists(competition_name_stripped):
         os.makedirs(competition_name_stripped)
-
-
-    lib.api.wca     {'grant_type': 'password', 'username': 'teddyni', 'password': 'lschmidtchen@worldcubeassociation.org', 'scope': 'public manage_competitions'}
-    apis            {'grant_type': 'password', 'username': 'lschmidtchen@worldcubeassociation.org', 'password': 'teddyni', 'scope': 'public manage_competitions'}
