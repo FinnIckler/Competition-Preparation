@@ -27,7 +27,7 @@ def format_minutes_and_seconds(time_string):
 
 # deprecated!
 def enlarge_string(input_string, add_string, string_length):
-    from src.lib.utils.WCA_result_to_string import shrink_or_enlarge_string
+    from lib.utils.WCA_result_to_string import shrink_or_enlarge_string
     return shrink_or_enlarge_string(input_string, string_length=string_length)
 
     while len(input_string) < string_length:

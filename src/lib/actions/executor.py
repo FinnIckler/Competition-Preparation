@@ -1,4 +1,5 @@
 from constants import Modes
+import sys
 
 
 class Executor:
@@ -42,3 +43,5 @@ class Executor:
         if mode == Modes.PREPERATION:
             from .doEverything import operation1
             operation1(self.parser.parse_args())
+
+        sys.exit()

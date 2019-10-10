@@ -16,17 +16,17 @@ def check_for_local_csv_files(competition_name_stripped):
                 print("Multiple registration files found, using first one found.")
                 continue
             ret[0] = dir + filepath
-        
+
         if grp_pattern.search(filepath):
             if ret[1]:
                 print("Multiple grouping files found, using first one found.")
                 continue
             ret[1] = dir + filepath
-        
+
         if scr_pattern.search(filepath):
             if ret[2]:
                 print("Multiple scrambling files found, using first one found.")
                 continue
             ret[2] = dir + filepath
-    
+
     return tuple(ret)

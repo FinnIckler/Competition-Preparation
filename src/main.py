@@ -38,13 +38,9 @@ while True:
         # TODO: isdigit() didnt fix the bug
         if program_type.isdigit():
             program_type = int(program_type)
-            #print("we 2")
             if program_type in range(1, 9):
-                #print("we 3")
                 executor = Executor(parser)
-                #print("we 4")
                 executor.execute_action(program_type)
-                #print("we 5")
             else:
                 print("Quitting programm.")
                 sys.exit()
